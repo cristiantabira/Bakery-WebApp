@@ -32,13 +32,12 @@ function App() {
 
         {/* Definirea rutelor */}
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/shop" element={<ShopPage/>} />
+          <Route path="/cart" element={<CartPage/>} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          {/* Adaugă aici alte rute dacă este necesar */}
         </Routes>
       </div>
     </Router>

@@ -1,4 +1,3 @@
-// controllers/accountController.js
 exports.dashboard = (req, res) => {
     res.send('Account Dashboard Page');
 };

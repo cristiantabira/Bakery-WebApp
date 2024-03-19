@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState, useEffect, useRef } from "react";
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\Header.css";
 import { CSSTransition } from "react-transition-group";
@@ -40,9 +39,9 @@ export default function Header() {
         timeout={350}
         classNames="NavAnimation"
         unmountOnExit
-        nodeRef={navRef} // Utilizează nodeRef aici
+        nodeRef={navRef} 
       >
-        <nav ref={navRef} className="Nav"> {/* Atașează ref-ul la <nav> */}
+        <nav ref={navRef} className="Nav"> 
           <Link to="/">Home</Link> 
           <Link to="/shop">Shop</Link>  
           <Link to="/account">My Account</Link> 
