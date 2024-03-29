@@ -1,0 +1,62 @@
+.container-home {
+    padding-top: 80px; 
+  }
+  
+body {
+    background-image: url('../assets/background7.jpg'); 
+    background-size: cover;
+    background-attachment: scroll; 
+    font-family: 'Open Sans', sans-serif;
+}
+h2 {
+    font-family: 'Merriweather', serif;
+    color: #663399; 
+  }
+  .about {
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding: 20px;
+    background-color: #f9f9f9; 
+    color: #333; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+  }
+
+  .about p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px; 
+  }
+
+  .feature p{
+    margin-top: 20px;
+  }
+  .about strong, .about em {
+    color: #555; 
+  }
+
+.feature, .about, .testimonials {
+    background-color: rgba(255, 255, 255, 0.8); 
+    margin: 0 auto; 
+    padding: 2rem; 
+    border-radius: 8px; 
+    width: auto;
+    max-width: 960px;
+
+}
+
+.feature img, .about img, .testimonials img {
+    width: 75%; 
+    height: auto; 
+    border-radius: 8px; 
+}
+@media (max-width: 992px) {
+    .container, .feature, .about, .testimonials, .newsletter {
+      padding: 0 15px; 
+    }
+}
+.newsletter input[type="text"], .newsletter input[type="email"], .newsletter button {
+    margin: 0.5rem 0; 
+}
+
+
