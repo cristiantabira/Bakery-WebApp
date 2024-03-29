@@ -1,0 +1,23 @@
+.signup-container {
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    padding-top: 100px;
+  }
+  
+  .signup-form {
+    margin-top: 20px;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .signup-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .signup-form .btn-primary {
+    margin-top: 20px;
+  }
+  

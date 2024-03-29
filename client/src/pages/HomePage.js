@@ -16,8 +16,8 @@ const HomePage = () => {
                         Nestled in the heart of Bucharest since 2002,{" "}
                         <strong>Cristian's Bakery</strong> has been a beacon of
                         culinary delight... Born from the passion of the
-                        Cristian family, our bakery stands as a testament to the
-                        timeless allure of homemade goodness...
+                        Cristian's family, our bakery stands as a testament to
+                        the timeless allure of homemade goodness...
                         <em>
                             Here, each product tells a story of love, care, and
                             the joy of sharing.
@@ -88,7 +88,7 @@ const HomePage = () => {
                     <h2>What Our Customers Say</h2>
                     <p>
                         "Never tasted anything quite like the pastries from
-                        Christian Bakery. They always have something new and
+                        Cristian Bakery. They always have something new and
                         exciting to try!"
                     </p>
                 </section>
