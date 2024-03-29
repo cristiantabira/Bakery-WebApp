@@ -19,7 +19,7 @@ export default function App() {
                         color="dark"
                         floating
                         className="m-1"
-                        href="#!"
+                        href="https://www.facebook.com/"
                         role="button"
                     >
                         <MDBIcon fab icon="facebook-f" />
@@ -30,32 +30,34 @@ export default function App() {
                         color="dark"
                         floating
                         className="m-1"
-                        href="#!"
-                        role="button"
-                    >
-                        <MDBIcon fab icon="twitter" />
-                    </MDBBtn>
-
-                    <MDBBtn
-                        outline
-                        color="dark"
-                        floating
-                        className="m-1"
-                        href="#!"
-                        role="button"
-                    >
-                        <MDBIcon fab icon="google" />
-                    </MDBBtn>
-
-                    <MDBBtn
-                        outline
-                        color="dark"
-                        floating
-                        className="m-1"
-                        href="#!"
+                        href="https://www.instagram.com/"
+                        target="new"
                         role="button"
                     >
                         <MDBIcon fab icon="instagram" />
+                    </MDBBtn>
+
+                    <MDBBtn
+                        outline
+                        color="dark"
+                        floating
+                        className="m-1"
+                        href="https://www.tiktok.com/"
+                        target="new"
+                        role="button"
+                    >
+                        <MDBIcon fab icon="tiktok" />
+                    </MDBBtn>
+
+                    <MDBBtn
+                        outline
+                        color="dark"
+                        floating
+                        className="m-1"
+                        href="https://maps.app.goo.gl/pSfZQukTGjzMXCwJA"
+                        role="button"
+                    >
+                        <MDBIcon fab icon="google" />
                     </MDBBtn>
                 </section>
 

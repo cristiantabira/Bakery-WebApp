@@ -2,24 +2,7 @@ import React from "react";
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\HomePage.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-const responsive = {
-    superLargeDesktop: {
-        breakpoint: { max: 4000, min: 3000 },
-        items: 5,
-    },
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 3,
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-    },
-};
+import { CONSTANTS } from "../components/Constants";
 const HomePage = () => {
     return (
         <div className="container-home">
@@ -45,50 +28,59 @@ const HomePage = () => {
                 <section className="feature text-center my-5">
                     <h2>Featured Products</h2>
                     <Carousel
-                        responsive={responsive}
+                        responsive={CONSTANTS.RESPONSIVE}
                         autoPlay={true}
                         autoPlaySpeed={5000}
                         infinite={true}
                     >
                         <div>
                             <img
-                                src="https://via.placeholder.com/600x400"
-                                alt="Product 1"
+                                src={CONSTANTS.IMAGES.briosa}
+                                alt="Briosa"
                                 className="img-fluid"
                             />
                         </div>
                         <div>
                             <img
-                                src="https://via.placeholder.com/600x400"
-                                alt="Product 2"
+                                src={CONSTANTS.IMAGES.cinnamonRolls}
+                                alt="cinnamonRolls"
                                 className="img-fluid"
                             />
                         </div>
                         <div>
                             <img
-                                src="https://via.placeholder.com/600x400"
-                                alt="Product 3"
+                                src={CONSTANTS.IMAGES.croissant}
+                                alt="croissant"
                                 className="img-fluid"
                             />
                         </div>
                         <div>
                             <img
-                                src="https://via.placeholder.com/600x400"
-                                alt="Product 4"
+                                src={CONSTANTS.IMAGES.macarons}
+                                alt="macarons"
                                 className="img-fluid"
                             />
                         </div>
                         <div>
                             <img
-                                src="https://via.placeholder.com/600x400"
-                                alt="Product 5"
+                                src={CONSTANTS.IMAGES.tartaFructe}
+                                alt="tartaFructe"
+                                className="img-fluid"
+                            />
+                        </div>
+                        <div>
+                            <img
+                                src={CONSTANTS.IMAGES.painAuChocolat}
+                                alt="painAuChocolat"
                                 className="img-fluid"
                             />
                         </div>
                     </Carousel>
                     <p>
-                        Discover our freshly baked, irresistible pastries and
-                        breads, made with love.
+                        <strong>
+                            Discover our freshly baked, irresistible pastries
+                            and breads, made with love.
+                        </strong>
                     </p>
                 </section>
 

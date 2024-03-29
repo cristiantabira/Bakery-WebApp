@@ -21,7 +21,25 @@ h2 {
     border-radius: 8px; 
     box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
   }
+  .feature .react-multi-carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Set a fixed height for the carousel items */
+    padding: 15px;
 
+  }
+  .feature .img-fluid {
+    width: 100%;
+    max-width: 400px; /* Maximum width */
+    height: auto;
+    aspect-ratio: 3 / 4; /* Maintain the aspect ratio of 400x600 */
+    object-fit: cover; /* Cover the area without losing aspect ratio */
+    margin: 0 auto; /* Center the image if it's smaller than the container */
+    border-style: solid;
+    border-color: rgb(243, 235, 235);
+    box-shadow: #333 inset;
+  }
   .about p {
     font-size: 16px;
     line-height: 1.6;
@@ -50,6 +68,9 @@ h2 {
     height: auto; 
     border-radius: 8px; 
 }
+
+
+
 @media (max-width: 992px) {
     .container, .feature, .about, .testimonials, .newsletter {
       padding: 0 15px; 
