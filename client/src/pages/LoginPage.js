@@ -22,17 +22,19 @@ const Login = () => {
                         type="email"
                         className="form-control"
                         id="email"
+                        placeholder="Email@domain.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Parolă</label>
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         className="form-control"
                         id="password"
+                        placeholder="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required

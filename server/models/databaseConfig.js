@@ -1,39 +1,58 @@
-import { DataTypes, Sequelize } from "sequelize";
-import { UserTemplate } from "./User.js";
-import { CartTemplate } from "./Cart.js";
-import { ProductTemplate } from "./Product.js";
-import { OrderTemplate } from "./Order.js";
-
-export const db = new Sequelize({
+const { Sequelize, DataTypes } = require("sequelize");
+const UserTemplate = require("./User");
+const CartTemplate = require("./Cart");
+const ProductTemplate = require("./Product");
+const OrderTemplate = require("./Order");
+const OrderProductsTemplate = require("./OrderProducts");
+// Define the database connection
+const db = new Sequelize({
     dialect: "sqlite",
-    storage: "./path_to_your_database/system.db"  // Actualizează cu calea către baza de date
+    storage:
+        "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\server\\models\\system.db", // Ensure this path is correctly set up
 });
 
-// Inițializează modelele
-export const User = UserTemplate(db, DataTypes);
-export const Cart = CartTemplate(db, DataTypes);
-export const Product = ProductTemplate(db, DataTypes);
-export const Order = OrderTemplate(db, DataTypes);
+// Initialize models
+const User = UserTemplate(db, DataTypes);
+const Cart = CartTemplate(db, DataTypes);
+const Product = ProductTemplate(db, DataTypes);
+const Order = OrderTemplate(db, DataTypes);
+const OrderProducts = OrderProductsTemplate(db, DataTypes);
 
+// Define model relationships
+User.hasOne(Cart, { foreignKey: "userId" });
+Cart.belongsTo(User, { foreignKey: "userId" });
 
-// User -> Cart (One to One)
-User.hasOne(Cart, { foreignKey: 'userId' });
-Cart.belongsTo(User, { foreignKey: 'userId' });
+Cart.belongsToMany(Product, { through: "CartProduct", foreignKey: "cartId" });
+Product.belongsToMany(Cart, {
+    through: "CartProduct",
+    foreignKey: "productId",
+});
 
-// Cart -> Product (Many to Many)
-Cart.belongsToMany(Product, { through: 'CartProduct', foreignKey: 'cartId' });
-Product.belongsToMany(Cart, { through: 'CartProduct', foreignKey: 'productId' });
+User.hasMany(Order, { foreignKey: "userId" });
+Order.belongsTo(User, { foreignKey: "userId" });
 
-// Order -> User (Many to One)
-User.hasMany(Order, { foreignKey: 'userId' });
-Order.belongsTo(User, { foreignKey: 'userId' });
+Order.belongsToMany(Product, { through: OrderProducts });
+Product.belongsToMany(Order, { through: OrderProducts });
 
-// Order -> Product (Many to Many)
-// O tabelă de asociere `OrderProduct` pentru a gestiona relația many-to-many
-Order.belongsToMany(Product, { through: 'OrderProduct', foreignKey: 'orderId' });
-Product.belongsToMany(Order, { through: 'OrderProduct', foreignKey: 'productId' });
-
-export const synchronizeDatabase = async () => {
-    await db.authenticate();
-    await db.sync({ force: false }); //`force: true` doar dacă vrei să reinițializezi schema bazei de date
+// Export models and db for use elsewhere in the project
+module.exports = {
+    db,
+    User,
+    Cart,
+    Product,
+    Order,
+    OrderProducts,
 };
+
+// Synchronize the database
+const synchronizeDatabase = async () => {
+    try {
+        await db.authenticate();
+        await db.sync({ force: false }); // Set `force: true` during development if needed to recreate tables
+        console.log("Database synced successfully.");
+    } catch (error) {
+        console.error("Failed to sync database:", error);
+    }
+};
+
+module.exports.synchronizeDatabase = synchronizeDatabase;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // Ensure you have this CSS file for styling
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\SignUpPage.css";
 
@@ -53,6 +53,7 @@ const SignUp = () => {
                         className="form-control"
                         id="email"
                         name="email"
+                        placeholder="Email"
                         value={form.email}
                         onChange={handleInputChange}
                         required
@@ -66,6 +67,7 @@ const SignUp = () => {
                         className="form-control"
                         id="password"
                         name="password"
+                        placeholder="********"
                         value={form.password}
                         onChange={handleInputChange}
                         required
@@ -79,6 +81,7 @@ const SignUp = () => {
                         className="form-control"
                         id="confirmPassword"
                         name="confirmPassword"
+                        placeholder="********"
                         value={form.confirmPassword}
                         onChange={handleInputChange}
                         required
@@ -88,6 +91,10 @@ const SignUp = () => {
                 <button type="submit" className="btn btn-primary btn-block">
                     Sign Up
                 </button>
+                <div className="mt-5">
+                    Have an account allready?
+                    <br /> <Link to="/login">Log in</Link>
+                </div>
             </form>
         </div>
     );

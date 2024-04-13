@@ -1,26 +1,19 @@
-export const User = (db, DataTypes) => {
+const { DataTypes } = require("sequelize");
+
+const User = (db, DataTypes) => {
     return db.define("user", {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        name: DataTypes.STRING,
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
+        password: DataTypes.STRING,
         role: {
-            type: DataTypes.ENUM('visitor', 'user', 'baker'),
-            defaultValue: 'visitor'
-        }
+            type: DataTypes.ENUM("user", "baker"),
+            defaultValue: "user",
+        },
     });
-}
+};
+
+module.exports = User;

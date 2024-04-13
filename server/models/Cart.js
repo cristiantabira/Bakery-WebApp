@@ -1,16 +1,15 @@
-export const Cart = (db, DataTypes) => {
+const { DataTypes } = require("sequelize");
+
+const Cart = (db, DataTypes) => {
     return db.define("cart", {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
         userId: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'users',
-                key: 'id'
-            }
-        }
+                model: "users",
+                key: "id",
+            },
+        },
     });
-}
+};
+
+module.exports = Cart;
