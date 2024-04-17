@@ -1,6 +1,4 @@
-// Example in server/controllers/productController.js
-// const { Product } = require("../models/Product");
-
+const upload = require("../config/uploadConfig");
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.findAll();
@@ -10,14 +8,20 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
-exports.addProduct = async (req, res) => {
-    // Implementation for adding a new product
-};
+exports.updateProduct = async (req, res) => {};
 
-exports.updateProduct = async (req, res) => {
-    // Implementation for updating a product
-};
+exports.deleteProduct = async (req, res) => {};
 
-exports.deleteProduct = async (req, res) => {
-    // Implementation for deleting a product
-};
+(exports.addProduct = upload.single("image")),
+    (req, res) => {
+        console.log(req.file);
+        console.log(req.body);
+
+        res.status(201).send({
+            message: "Product added successfully!",
+            data: {
+                ...req.body,
+                imageUrl: `/assets/${req.file.filename}`,
+            },
+        });
+    };

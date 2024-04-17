@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import BakerPage from "./pages/BakerCMS";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/account" element={<AccountPage />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/signup" element={<SignUpPage />} />
+                        <Route path="/products/add" element={<BakerPage />} />
                     </Routes>
                 </div>
                 <Footer className="footer"></Footer>

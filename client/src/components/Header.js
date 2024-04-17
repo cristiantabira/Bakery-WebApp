@@ -55,6 +55,7 @@ export default function Header() {
                         <Link to="/account">My Account</Link>
                         <Link to="/cart">Cart</Link>
                         <Link to="/login">Login</Link>
+                        <Link to="/products/add">CMS</Link>
                     </nav>
                 </CSSTransition>
             </Container>

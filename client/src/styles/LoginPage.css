@@ -22,16 +22,16 @@
     margin-top: 20px;
   }
   .login-form .mt-3 {
-    margin-top: 1rem; /* Spațiu suplimentar deasupra mesajului */
+    margin-top: 1rem; 
   }
   
   .login-form .mt-3 a {
-    color: #007bff; /* Stilizează linkul cu culoarea bootstrap pentru link-uri */
-    text-decoration: none; /* Opțional, dacă vrei să elimini sublinierea link-ului */
+    color: #007bff; 
+    text-decoration: none; 
   }
   
   .login-form .mt-3 a:hover {
-    text-decoration: underline; /* Adaugă subliniere când utilizatorul trece cu mouse-ul peste */
+    text-decoration: underline; 
   }
   
   

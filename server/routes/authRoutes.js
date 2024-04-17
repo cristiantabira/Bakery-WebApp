@@ -8,4 +8,7 @@ router.get("/login", authController.login);
 // Sign-up route
 router.get("/signup", authController.signup);
 
+router.post("/login", (req, res) => {
+    res.json("login");
+});
 module.exports = router;
