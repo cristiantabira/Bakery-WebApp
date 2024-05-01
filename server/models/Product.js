@@ -1,12 +1,12 @@
 const { DataTypes } = require("sequelize");
 
-const Product = (db, DataTypes) => {
+const Product = (db) => {
     return db.define("product", {
         name: DataTypes.STRING,
-        description: DataTypes.TEXT,
+        // description: DataTypes.TEXT,
         price: DataTypes.FLOAT,
-        category: DataTypes.STRING,
-        imageUrl: DataTypes.STRING,
+        // category: DataTypes.STRING,
+        // imageUrl: DataTypes.STRING,
     });
 };
 
