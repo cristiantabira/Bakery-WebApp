@@ -1,4 +1,6 @@
 const { Product } = require("../models");
+const fs = require("fs");
+const path = require("path");
 
 exports.getAllProducts = async (req, res) => {
     try {
@@ -58,15 +60,25 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-        const deleted = await Product.destroy({
-            where: { id: req.params.id },
-        });
-        if (deleted) {
-            res.status(204).send("Product deleted");
-        } else {
+        const product = await Product.findByPk(req.params.id);
+        if (!product) {
             res.status(404).send("Product not found");
+            return;
         }
+
+        if (product.imageUrl) {
+            const imagePath = path.join(__dirname, "..", product.imageUrl); // Adjust path as necessary
+            fs.unlink(imagePath, (err) => {
+                if (err) {
+                    console.error("Failed to delete the image file:", err);
+                }
+            });
+        }
+
+        await product.destroy();
+        res.status(204).send("Product deleted");
     } catch (error) {
+        console.error("Failed to delete product:", error);
         res.status(500).send(error.message);
     }
 };

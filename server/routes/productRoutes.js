@@ -1,28 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-// // const productController = require("../controllers/productController");
-// const {
-//     getAllProducts,
-//     getProductById,
-//     addProduct,
-//     updateProduct,
-//     deleteProduct,
-//     searchProducts,
-// } = require("../controllers/productController");
-// router.get("/", getAllProducts);
-
-// router.get("/:id", getProductById);
-
-// router.post("/add", addProduct);
-
-// router.put("/:id", updateProduct);
-
-// router.delete("/:id", deleteProduct);
-
-// router.get("/search", searchProducts);
-
-// module.exports = router;
-
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");

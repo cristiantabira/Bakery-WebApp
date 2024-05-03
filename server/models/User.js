@@ -10,10 +10,9 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 unique: true,
             },
-            password: DataTypes.STRING,
-            role: {
-                type: DataTypes.ENUM("user", "baker"),
-                defaultValue: "user",
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
         },
         {

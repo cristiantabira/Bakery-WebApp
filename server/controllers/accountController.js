@@ -2,13 +2,16 @@ const { User, Order, Cart } = require("../models");
 
 exports.getUserProfile = async (req, res) => {
     try {
-        const user = await User.findByPk(req.userId);
-        res.status(200).json(user);
+        const user = await User.findByPk(req.params.userId);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).send("User not found.");
+        }
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
-
 exports.getUserOrders = async (req, res) => {
     try {
         const orders = await Order.findAll({
@@ -16,7 +19,7 @@ exports.getUserOrders = async (req, res) => {
             include: [
                 {
                     model: Product,
-                    through: { attributes: [] }, // This ensures only Product data is included, not the join table data
+                    through: { attributes: [] },
                 },
             ],
         });
@@ -67,7 +70,6 @@ exports.removeProductFromOrder = async (req, res) => {
         });
 
         if (order) {
-            // Find the specific OrderedProduct entry and remove it
             const productToRemove = order.orderedProducts.find(
                 (p) => p.productId === parseInt(productId)
             );

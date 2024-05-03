@@ -1,15 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\LoginPage.css";
+import axios from "axios";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("Login submitted", { email, password });
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/auth/login",
+                {
+                    email,
+                    password,
+                }
+            );
+            if (response.status === 202) {
+                console.log("Login successful:", response.data);
+                navigate("/");
+            } else {
+                alert("Login failed: Please check your email and password.");
+            }
+        } catch (error) {
+            console.error("Login failed:", error.response.data);
+            alert("Login failed: Please check your email and password.");
+        }
     };
 
     return (

@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import Modal from "react-modal";
+import { useState } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-// Ensure you have this CSS file for styling
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\SignUpPage.css";
 
+Modal.setAppElement("#root");
+
 const SignUp = () => {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
         password: "",
         confirmPassword: "",
         name: "",
     });
-    const navigate = useNavigate();
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setForm({
@@ -19,12 +22,31 @@ const SignUp = () => {
             [name]: value,
         });
     };
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Here you would typically handle the form submission to your backend
-        console.log(form);
-        // navigate('/somepath'); // Optionally, navigate to another route after successful signup
+        if (form.password !== form.confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/auth/signup",
+                {
+                    name: form.name,
+                    email: form.email,
+                    password: form.password,
+                }
+            );
+            setModalIsOpen(true);
+        } catch (error) {
+            console.error("Signup failed:", error.response.data);
+            alert("Failed to sign up: " + error.response.data);
+        }
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        navigate("/login");
     };
 
     return (
@@ -96,8 +118,17 @@ const SignUp = () => {
                     <br /> <Link to="/login">Log in</Link>
                 </div>
             </form>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Signup Successful"
+                className="Modal"
+                overlayClassName="Overlay"
+            >
+                <h2>Registration Successful!</h2>
+                <button onClick={closeModal}>OK</button>
+            </Modal>
         </div>
     );
 };
-
 export default SignUp;

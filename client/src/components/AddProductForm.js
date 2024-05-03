@@ -27,12 +27,12 @@ const AddProductForm = () => {
         formData.append("description", product.description);
         formData.append("price", product.price);
         formData.append("category", product.category);
-        formData.append("image", product.image); // Ensure the file is attached correctly
+        formData.append("image", product.image);
 
         try {
             const response = await axios.post(
                 "http://localhost:5000/products/add",
-                formData, // Pass formData instead of product object
+                formData,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
