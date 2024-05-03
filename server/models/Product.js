@@ -1,13 +1,41 @@
-const { DataTypes } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
-const Product = (db) => {
-    return db.define("product", {
-        name: DataTypes.STRING,
-        // description: DataTypes.TEXT,
-        price: DataTypes.FLOAT,
-        // category: DataTypes.STRING,
-        // imageUrl: DataTypes.STRING,
-    });
+module.exports = (sequelize, DataTypes) => {
+    class Product extends Model {}
+
+    Product.init(
+        {
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            description: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
+            price: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+                validate: {
+                    isFloat: true, // Ensures the price is a floating number
+                },
+            },
+            category: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            imageUrl: {
+                type: DataTypes.STRING,
+                allowNull: true, // Set to true as not all products may have an image initially
+            },
+        },
+        {
+            sequelize,
+            modelName: "Product",
+            tableName: "products",
+            timestamps: false,
+        }
+    );
+
+    return Product;
 };
-
-module.exports = Product;

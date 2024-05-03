@@ -1,23 +1,23 @@
-const { DataTypes } = require("sequelize");
-
-const OrderProducts = (sequelize) => {
-    return sequelize.define(
-        "OrderProducts",
+// models/cartProduct.js
+module.exports = (sequelize, DataTypes) => {
+    const CartProduct = sequelize.define(
+        "CartProduct",
         {
-            orderIdOrder: {
+            cartId: {
                 type: DataTypes.INTEGER,
                 references: {
-                    model: "order",
+                    model: "Cart",
                     key: "id",
                 },
             },
-            productIdOrder: {
+            productIdCart: {
                 type: DataTypes.INTEGER,
                 references: {
-                    model: "product",
+                    model: "Product",
                     key: "id",
                 },
             },
+
             quantity: DataTypes.INTEGER,
             price: DataTypes.FLOAT,
             subtotal: {
@@ -32,9 +32,9 @@ const OrderProducts = (sequelize) => {
             },
         },
         {
-            timestamps: false,
+            timestamps: false, // Assume no need for timestamps
         }
     );
-};
 
-module.exports = OrderProducts;
+    return CartProduct;
+};

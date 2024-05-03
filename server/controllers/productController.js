@@ -1,11 +1,29 @@
-const Product = require("../models/Product");
+const { Product } = require("../models");
 
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.findAll();
-        res.json(products);
+        const productList = await Product.findAll();
+        res.status(200).json(productList);
     } catch (error) {
-        res.status(500).send(error.toString());
+        res.status(500).send(error.message);
+    }
+};
+
+exports.createProduct = async (req, res) => {
+    try {
+        const { name, description, price, category } = req.body;
+        const imageUrl = req.file ? req.file.path : null; // Handle no file case
+        const product = await Product.create({
+            name,
+            description,
+            price,
+            category,
+            imageUrl,
+        });
+        res.status(201).send(product);
+    } catch (error) {
+        console.error("here was an error creating the product:", error);
+        res.status(500).send(error);
     }
 };
 
@@ -13,21 +31,12 @@ exports.getProductById = async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         if (product) {
-            res.json(product);
+            res.status(200).json(product);
         } else {
             res.status(404).send("Product not found");
         }
     } catch (error) {
-        res.status(500).send(error.toString());
-    }
-};
-
-exports.addProduct = async (req, res) => {
-    try {
-        const product = await Product.create(req.body);
-        res.status(201).send(product);
-    } catch (error) {
-        res.status(500).send(error.toString());
+        res.status(500).send(error.message);
     }
 };
 
@@ -37,39 +46,27 @@ exports.updateProduct = async (req, res) => {
             where: { id: req.params.id },
         });
         if (updated) {
-            res.send("Product updated successfully");
+            const updatedProduct = await Product.findByPk(req.params.id);
+            res.status(200).json(updatedProduct);
         } else {
             res.status(404).send("Product not found");
         }
     } catch (error) {
-        res.status(500).send(error.toString());
+        res.status(500).send(error.message);
     }
 };
 
 exports.deleteProduct = async (req, res) => {
     try {
-        const result = await Product.destroy({
+        const deleted = await Product.destroy({
             where: { id: req.params.id },
         });
-        if (result) {
-            res.send("Product deleted successfully");
+        if (deleted) {
+            res.status(204).send("Product deleted");
         } else {
             res.status(404).send("Product not found");
         }
     } catch (error) {
-        res.status(500).send(error.toString());
-    }
-};
-
-exports.searchProducts = async (req, res) => {
-    try {
-        const products = await Product.findAll({
-            where: {
-                name: { [Op.like]: `%${req.query.q}%` },
-            },
-        });
-        res.json(products);
-    } catch (error) {
-        res.status(500).send(error.toString());
+        res.status(500).send(error.message);
     }
 };
