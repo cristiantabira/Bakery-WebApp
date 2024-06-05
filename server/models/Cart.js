@@ -1,15 +1,25 @@
-const { DataTypes } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
-const Cart = (db, DataTypes) => {
-    return db.define("cart", {
-        userId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: "users",
-                key: "id",
+module.exports = (sequelize) => {
+    class Cart extends Model {}
+
+    Cart.init(
+        {
+            userId: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: "users",
+                    key: "id",
+                },
             },
         },
-    });
-};
+        {
+            sequelize,
+            modelName: "Cart",
+            tableName: "carts",
+            timestamps: true,
+        }
+    );
 
-module.exports = Cart;
+    return Cart;
+};

@@ -19,12 +19,12 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Aici importăm și inițializăm modelul
-db.User = require("./User.js")(sequelize, DataTypes);
-db.Order = require("./Order.js")(sequelize, DataTypes);
-db.Product = require("./Product.js")(sequelize, DataTypes);
-db.Cart = require("./Cart.js")(sequelize, DataTypes);
-db.CartProduct = require("./CartProducts.js")(sequelize, DataTypes);
-db.OrderProducts = require("./OrderProducts.js")(sequelize, DataTypes);
+db.User = require("./User.js")(sequelize);
+db.Order = require("./Order.js")(sequelize);
+db.Product = require("./Product.js")(sequelize);
+db.Cart = require("./Cart.js")(sequelize);
+db.CartProduct = require("./CartProducts.js")(sequelize);
+db.OrderProducts = require("./OrderProducts.js")(sequelize);
 
 require("../utils/associations.js")(db);
 module.exports = db;

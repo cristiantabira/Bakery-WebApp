@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize) => {
     class Product extends Model {}
 
     Product.init(
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.FLOAT,
                 allowNull: false,
                 validate: {
-                    isFloat: true, // Ensures the price is a floating number
+                    isFloat: true,
                 },
             },
             category: {
@@ -26,13 +26,14 @@ module.exports = (sequelize, DataTypes) => {
             },
             imageUrl: {
                 type: DataTypes.STRING,
-                allowNull: true, // Set to true as not all products may have an image initially
+                allowNull: true,
             },
         },
         {
             sequelize,
             modelName: "Product",
             tableName: "products",
+            freezeTableName: true,
             timestamps: false,
         }
     );

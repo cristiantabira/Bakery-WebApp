@@ -1,8 +1,9 @@
-const { DataTypes } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
-const OrderProducts = (sequelize) => {
-    return sequelize.define(
-        "OrderProducts",
+module.exports = (sequelize) => {
+    class OrderProducts extends Model {}
+
+    OrderProducts.init(
         {
             orderIdOrder: {
                 type: DataTypes.INTEGER,
@@ -32,9 +33,12 @@ const OrderProducts = (sequelize) => {
             },
         },
         {
+            sequelize,
+            modelName: "OrderProducts",
+            tableName: "order_products",
             timestamps: false,
         }
     );
-};
 
-module.exports = OrderProducts;
+    return OrderProducts;
+};

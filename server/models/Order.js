@@ -2,13 +2,14 @@ const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
     class Order extends Model {}
+
     Order.init(
         {
             userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: "users", // asigură-te că numele tabelului este corect
+                    model: "users",
                     key: "id",
                 },
             },

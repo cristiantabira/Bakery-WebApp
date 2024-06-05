@@ -2,47 +2,26 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\ShopPage.css";
 import { CONSTANTS } from "../components/Constants";
+import axios from "axios";
 
 const ShopPage = () => {
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: "Croissant",
-            price: 4,
-            imageUrl: CONSTANTS.IMAGES.croissant,
-        },
-        {
-            id: 2,
-            name: "Briosa",
-            price: 5.5,
-            imageUrl: CONSTANTS.IMAGES.briosa,
-        },
-        {
-            id: 3,
-            name: "Cinnamon Rolls",
-            price: 5.8,
-            imageUrl: CONSTANTS.IMAGES.cinnamonRolls,
-        },
-        {
-            id: 4,
-            name: "Macarons",
-            price: 9,
-            imageUrl: CONSTANTS.IMAGES.macarons,
-        },
-        {
-            id: 5,
-            name: "Pain Au Chocolat",
-            price: 8,
-            imageUrl: CONSTANTS.IMAGES.painAuChocolat,
-        },
-        {
-            id: 7,
-            name: "Tarta Fructe",
-            price: 10,
-            imageUrl: CONSTANTS.IMAGES.tartaFructe,
-        },
-    ]);
+    const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:5000/products"
+                );
+                setProducts(response.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -51,7 +30,6 @@ const ShopPage = () => {
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     return (
         <div className="container mt-5">
             <h1 className="text-center mb-4">Welcome to Our Bakery Shop</h1>
@@ -63,14 +41,17 @@ const ShopPage = () => {
                 onChange={handleSearchChange}
             />
             <div className="row">
-                {filteredProducts.map((product, index) => (
+                {filteredProducts.map((product) => (
                     <div
                         key={product.id}
                         className="col-lg-3 col-md-4 col-sm-6 mb-4"
                     >
                         <div className="card">
                             <img
-                                src={product.imageUrl}
+                                src={
+                                    product.imageUrl ||
+                                    "http://localhost:5000/uploads/briosa.jpg"
+                                }
                                 alt={product.name}
                                 className="card-img-top"
                                 style={{ height: "200px", objectFit: "cover" }}

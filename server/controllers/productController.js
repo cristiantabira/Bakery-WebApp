@@ -67,7 +67,7 @@ exports.deleteProduct = async (req, res) => {
         }
 
         if (product.imageUrl) {
-            const imagePath = path.join(__dirname, "..", product.imageUrl); // Adjust path as necessary
+            const imagePath = path.join(__dirname, "..", product.imageUrl);
             fs.unlink(imagePath, (err) => {
                 if (err) {
                     console.error("Failed to delete the image file:", err);
