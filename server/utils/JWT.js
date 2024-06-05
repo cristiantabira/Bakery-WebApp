@@ -13,11 +13,11 @@ const validateToken = (req, res, next) => {
     console.log(req.cookies);
     const accessToken = req.cookies["access-token"];
     if (!accessToken) return res.status(400).json("User not authenticated");
-    console.log("Test");
     try {
         const validToken = verify(accessToken, "parolaSecreta");
         if (validToken) {
             req.authenticated = true;
+            req.user = validToken;
             return next();
         }
     } catch (err) {

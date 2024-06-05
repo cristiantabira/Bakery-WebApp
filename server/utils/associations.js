@@ -14,6 +14,4 @@ module.exports = (models) => {
     models.Product.belongsToMany(models.Order, {
         through: models.OrderProducts,
     });
-    models.Cart.belongsToMany(models.Product, { through: models.CartProduct });
-    models.Product.belongsToMany(models.Cart, { through: models.CartProduct });
 };

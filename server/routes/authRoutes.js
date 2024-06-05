@@ -4,7 +4,9 @@ const authController = require("../controllers/authController");
 
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const { createToken } = require("../utils/JWT");
+const jwt = require("jsonwebtoken");
+const { createToken, validateToken } = require("../utils/JWT");
+const { User } = require("../models");
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -34,6 +36,11 @@ router.post("/signup", (req, res) => {
         req.body.hash = hash; // add hashed password to req.body
         authController.signUpUser(req, res);
     });
+});
+
+router.get("/me", validateToken, async (req, res) => {
+    const user = await User.findByPk(req.user.id);
+    res.json({ user });
 });
 
 module.exports = router;

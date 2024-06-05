@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\Header.css";
+import "../styles/Header.css";
 import { CSSTransition } from "react-transition-group";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useAuth } from "../services/AuthContext"; // Importăm contextul de autentificare
 
 export default function Header() {
     const [isNavVisible, setNavVisibility] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const navRef = useRef(null);
+    const { user, logout } = useAuth(); // Obținem informațiile despre utilizator din context
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
@@ -29,7 +31,7 @@ export default function Header() {
         <header className="Header">
             <Container>
                 <button onClick={toggleNav} className="Burger">
-                    🎂
+                    🍰
                 </button>
 
                 <CSSTransition
@@ -52,10 +54,22 @@ export default function Header() {
                         />
                         <Link to="/">Home</Link>
                         <Link to="/shop">Shop</Link>
-                        <Link to="/account">My Account</Link>
                         <Link to="/cart">Cart</Link>
-                        <Link to="/login">Login</Link>
-                        <Link to="/products/add">CMS</Link>
+                        {!user ? (
+                            <>
+                                <Link to="/login">Login</Link>
+                                <Link to="/signup">Sign Up</Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/account">My Account</Link>
+                                <span>Welcome, {user.name}</span>
+                                <button onClick={logout}>Logout</button>
+                                {user.role === "admin" && (
+                                    <Link to="/products/add">CMS</Link>
+                                )}
+                            </>
+                        )}
                     </nav>
                 </CSSTransition>
             </Container>
