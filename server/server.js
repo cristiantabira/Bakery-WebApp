@@ -19,29 +19,31 @@ app.use(
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
 const accountRoutes = require("./routes/accountRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/account", accountRoutes);
+app.use("/cart", cartRoutes);
 
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log("Connection has been established successfully.");
-//         return sequelize.sync({ force: true });
-//     })
-//     .then(async () => {
-//         const tableExists = await sequelize
-//             .getQueryInterface()
-//             .showAllSchemas();
-//         if (!tableExists.some((schema) => schema.name === "products")) {
-//             throw new Error("Tabela 'products' nu există");
-//         }
-//         app.listen(port, () =>
-//             console.log(`Server running on http://localhost:${port}`)
-//         );
-//     })
-//     .catch((err) => console.error("Unable to connect to the database:", err));
-sequelize.sync({ force: true }).then(async () => {
-    const tables = await sequelize.getQueryInterface().showAllSchemas();
-    console.log("Tables in database:", tables);
-});
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log("Connection has been established successfully.");
+        return sequelize.sync({ force: false });
+    })
+    .then(async () => {
+        const tableExists = await sequelize
+            .getQueryInterface()
+            .showAllSchemas();
+        if (!tableExists.some((schema) => schema.name === "products")) {
+            throw new Error("Tabela 'products' nu există");
+        }
+        app.listen(port, () =>
+            console.log(`Server running on http://localhost:${port}`)
+        );
+    })
+    .catch((err) => console.error("Unable to connect to the database:", err));
+// sequelize.sync({ force: false }).then(async () => {
+//     const tables = await sequelize.getQueryInterface().showAllSchemas();
+//     console.log("Tables in database:", tables);
+// });

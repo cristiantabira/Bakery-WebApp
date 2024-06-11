@@ -10,11 +10,14 @@ const createToken = (user) => {
 };
 
 const validateToken = (req, res, next) => {
-    console.log(req.cookies);
     const accessToken = req.cookies["access-token"];
-    if (!accessToken) return res.status(400).json("User not authenticated");
+    if (!accessToken) {
+        req.user = null; // Permite utilizatorilor neautentificați
+        return next();
+    }
     try {
         const validToken = verify(accessToken, "parolaSecreta");
+        console.log("Decoded JWT:", validToken); // Afișează conținutul decodat al token-ului în consolă
         if (validToken) {
             req.authenticated = true;
             req.user = validToken;
@@ -23,7 +26,9 @@ const validateToken = (req, res, next) => {
     } catch (err) {
         return res.status(400).json(err);
     }
-    return next();
+    req.user = null; // Permite utilizatorilor neautentificați
+    next();
 };
 
+module.exports = { validateToken };
 module.exports = { createToken, validateToken };

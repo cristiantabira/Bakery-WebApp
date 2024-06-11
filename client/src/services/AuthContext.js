@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const token = localStorage.getItem("token");
                 if (token) {
-                    const { data } = await axios.get("/api/auth/me", {
+                    const { data } = await axios.get("/auth/me", {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     setUser(data.user);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const { data } = await axios.post("/api/auth/login", credentials);
+            const { data } = await axios.post("/auth/login", credentials);
             localStorage.setItem("token", data.token);
             setUser(data.user);
         } catch (error) {

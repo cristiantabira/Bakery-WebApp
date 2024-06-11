@@ -7,10 +7,16 @@ module.exports = (sequelize) => {
         {
             userId: {
                 type: DataTypes.INTEGER,
+                allowNull: true,
                 references: {
                     model: "users",
                     key: "id",
                 },
+            },
+            sessionId: {
+                type: DataTypes.UUID,
+                allowNull: true,
+                unique: true,
             },
         },
         {

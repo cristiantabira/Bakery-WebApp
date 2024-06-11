@@ -1,3 +1,1 @@
-exports.index = (req, res) => {
-    res.send('Welcome to the Home Page');
-};
+//will add later on maybe some functionality for the home page here

@@ -7,13 +7,15 @@ module.exports = (sequelize) => {
         {
             cartId: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 references: {
                     model: "carts",
-                    key: "cart_id",
+                    key: "id",
                 },
             },
-            productIdCart: {
+            productId: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 references: {
                     model: "products",
                     key: "id",
@@ -37,6 +39,12 @@ module.exports = (sequelize) => {
             modelName: "CartProducts",
             tableName: "cart_products",
             timestamps: false,
+            indexes: [
+                {
+                    unique: true,
+                    fields: ["cartId", "productId"],
+                },
+            ],
         }
     );
 
