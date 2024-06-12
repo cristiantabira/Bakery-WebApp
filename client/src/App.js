@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BakerPage from "./pages/BakerCMS";
 import { AuthProvider } from "./services/AuthContext";
+import Header2 from "./components/Header2";
 
 function App() {
     return (

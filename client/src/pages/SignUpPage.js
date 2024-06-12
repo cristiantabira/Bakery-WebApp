@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\SignUpPage.css";
+import "../styles/SignUpPage.css";
 
 Modal.setAppElement("#root");
 

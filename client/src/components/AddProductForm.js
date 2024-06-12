@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\AddProductForm.css";
+import "../styles/AddProductForm.css";
 
 const AddProductForm = () => {
     const [product, setProduct] = useState({

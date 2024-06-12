@@ -7,14 +7,12 @@ const mergeCarts = async (sessionId, userId) => {
 
         const userCart = await Cart.findOne({ where: { userId } });
         if (!userCart) {
-            // If the user does not have a cart, associate the session cart with the user
             sessionCart.userId = userId;
             sessionCart.sessionId = null;
             await sessionCart.save();
             return;
         }
 
-        // Merge session cart into user cart
         const sessionCartProducts = await CartProduct.findAll({
             where: { cartId: sessionCart.id },
         });
@@ -34,17 +32,14 @@ const mergeCarts = async (sessionId, userId) => {
             });
 
             if (!created) {
-                // If the product already exists in the user's cart, update the quantity and subtotal
                 userProduct.quantity += sessionProduct.quantity;
                 userProduct.subtotal = userProduct.quantity * userProduct.price;
                 await userProduct.save();
             }
 
-            // Delete the product from the session cart
             await sessionProduct.destroy();
         }
 
-        // Delete the session cart
         await sessionCart.destroy();
     } catch (error) {
         console.error("Failed to merge carts:", error);

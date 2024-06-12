@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\LoginPage.css";
+import "../styles/LoginPage.css";
 import axios from "axios";
 
 const Login = () => {

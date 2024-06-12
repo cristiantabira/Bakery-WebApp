@@ -16,9 +16,8 @@ exports.index = async (req, res) => {
 exports.addToCart = async (req, res) => {
     try {
         let userId = req.user ? req.user.id : null;
-        let sessionId = req.cookies.sessionId;
+        let sessionId = req.cookies.sessionId ? req.cookies.sessionId : null;
 
-        // Dacă utilizatorul nu este autentificat și nu există un session ID, creează unul nou
         if (!userId && !sessionId) {
             sessionId = uuidv4();
             res.cookie("sessionId", sessionId, {
@@ -27,13 +26,11 @@ exports.addToCart = async (req, res) => {
             });
         }
 
-        // Găsește sau creează coșul
         const [cart, created] = await Cart.findOrCreate({
             where: userId ? { userId } : { sessionId },
             defaults: userId ? { userId } : { sessionId },
         });
 
-        // Găsește produsul din coș
         const { productId, quantity, price } = req.body;
         const product = await Product.findByPk(productId);
 
@@ -58,7 +55,6 @@ exports.addToCart = async (req, res) => {
             console.log("CartProduct:", cartProduct);
 
             if (!productCreated) {
-                // Dacă produsul există deja în coș, actualizează cantitatea și subtotalul
                 cartProduct.quantity += quantity;
                 cartProduct.price = product.price;
                 cartProduct.subtotal = cartProduct.quantity * cartProduct.price;
@@ -72,15 +68,12 @@ exports.addToCart = async (req, res) => {
         } catch (error) {
             console.error("Failed to add product to cart:", error);
 
-            // Gestionarea erorilor de constrângere unică
             if (error.name === "SequelizeUniqueConstraintError") {
                 try {
-                    // În cazul unei erori de constrângere unică, încercăm să găsim produsul din nou
                     const cartProduct = await CartProduct.findOne({
                         where: { cartId: cart.id, productId: product.id },
                     });
 
-                    // Actualizăm cantitatea și subtotalul
                     cartProduct.quantity += quantity;
                     cartProduct.subtotal =
                         cartProduct.quantity * cartProduct.price;

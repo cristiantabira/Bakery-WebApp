@@ -3,13 +3,13 @@ import "../styles/Header.css";
 import { CSSTransition } from "react-transition-group";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { useAuth } from "../services/AuthContext"; // Importăm contextul de autentificare
+import { useAuth } from "../services/AuthContext"; //context
 
 export default function Header() {
     const [isNavVisible, setNavVisibility] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const navRef = useRef(null);
-    const { user, logout } = useAuth(); // Obținem informațiile despre utilizator din context
+    const { user, logout } = useAuth(); // context
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");

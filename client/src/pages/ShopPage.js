@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\ShopPage.css";
+import "../styles/ShopPage.css";
 import { CONSTANTS } from "../components/Constants";
 import axios from "axios";
 

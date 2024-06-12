@@ -1,5 +1,5 @@
 import React from "react";
-import "C:\\Github Projects\\TW Proiect\\Bakery-WebApp\\client\\src\\styles\\HomePage.css";
+import "../styles/HomePage.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { CONSTANTS } from "../components/Constants";
