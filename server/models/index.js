@@ -18,7 +18,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Aici importăm și inițializăm modelul
 db.User = require("./User.js")(sequelize);
 db.Order = require("./Order.js")(sequelize);
 db.Product = require("./Product.js")(sequelize);

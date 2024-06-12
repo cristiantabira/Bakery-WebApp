@@ -1,0 +1,56 @@
+.account-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 120px auto 20px auto; 
+    background-color: #fff3e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6d4c41;
+    font-size: 24px;
+}
+
+.account-details {
+    margin-bottom: 20px;
+}
+
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.account-item label {
+    font-weight: bold;
+    color: #6d4c41;
+}
+
+.account-item span {
+    color: #6d4c41;
+}
+
+.account-actions {
+    text-align: center;
+}
+
+.account-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #2e0249;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.account-button:hover {
+    background-color: #b71c1c;
+}

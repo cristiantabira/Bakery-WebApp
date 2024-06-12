@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
 router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
     bcrypt.hash(password, 10).then((hash) => {
-        req.body.hash = hash; // add hashed password to req.body
+        req.body.hash = hash; // hashed password to req.body
         authController.signUpUser(req, res);
     });
 });

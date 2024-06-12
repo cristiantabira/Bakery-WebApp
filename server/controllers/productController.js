@@ -14,7 +14,7 @@ exports.getAllProducts = async (req, res) => {
 exports.createProduct = async (req, res) => {
     try {
         const { name, description, price, category } = req.body;
-        const imageUrl = req.file ? req.file.path : null; // Handle no file case
+        const imageUrl = req.file ? req.file.path : null; // no file case
         const product = await Product.create({
             name,
             description,

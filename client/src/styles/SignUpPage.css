@@ -20,7 +20,12 @@
 
 .signup-form .btn-primary {
   margin-top: 20px;
+  background-color: #2e0249;
 }
+.btn-primary:hover {
+  background-color: #b71c1c;
+}
+
 
 .Overlay {
   position: fixed;

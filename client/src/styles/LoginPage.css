@@ -20,13 +20,17 @@
   
   .login-form .btn-primary {
     margin-top: 20px;
+    background-color: #2e0249;
+  }
+  .btn-primary:hover {
+    background-color: #b71c1c;
   }
   .login-form .mt-3 {
     margin-top: 1rem; 
   }
   
   .login-form .mt-3 a {
-    color: #007bff; 
+    color: #2e0249; 
     text-decoration: none; 
   }
   
