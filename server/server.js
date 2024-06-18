@@ -43,6 +43,7 @@ sequelize
         );
     })
     .catch((err) => console.error("Unable to connect to the database:", err));
+
 // sequelize.sync({ force: false }).then(async () => {
 //     const tables = await sequelize.getQueryInterface().showAllSchemas();
 //     console.log("Tables in database:", tables);

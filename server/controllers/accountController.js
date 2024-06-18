@@ -2,14 +2,19 @@ const { User, Order, Cart } = require("../models");
 
 exports.getUserProfile = async (req, res) => {
     try {
-        const user = await User.findByPk(req.params.userId);
+        console.log(req.user);
+        const userId = req.user.id; // Assuming the user ID is stored in req.user
+        const user = await User.findByPk(userId, {
+            attributes: { exclude: ["password"] }, // Exclude sensitive information
+        });
+
         if (user) {
             res.status(200).json(user);
         } else {
-            res.status(404).send("User not found.");
+            res.status(404).json({ message: "User not found" });
         }
     } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json({ message: error.message });
     }
 };
 exports.getUserOrders = async (req, res) => {

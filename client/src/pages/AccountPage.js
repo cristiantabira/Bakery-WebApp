@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/AccountPage.css";
 
 const AccountPage = () => {
-    const user = {
-        name: "Cristian Țabîră",
-        email: "cristian.tabira@yahoo.com",
-    };
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:5000/account/profile",
+                    {
+                        withCredentials: true, // Ensure cookies are sent with the request
+                    }
+                );
+                setUserData(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError(err);
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     const handleChangePassword = () => {
         alert("Change Password Clicked");
@@ -22,16 +45,20 @@ const AccountPage = () => {
     return (
         <div className="account-container">
             <h2 className="account-title">My Account</h2>
-            <div className="account-details">
-                <div className="account-item">
-                    <label>Name:</label>
-                    <span>{user.name}</span>
+            {userData ? (
+                <div className="account-details">
+                    <div className="account-item">
+                        <label>Name:</label>
+                        <span>{userData.name}</span>
+                    </div>
+                    <div className="account-item">
+                        <label>Email:</label>
+                        <span>{userData.email}</span>
+                    </div>
                 </div>
-                <div className="account-item">
-                    <label>Email:</label>
-                    <span>{user.email}</span>
-                </div>
-            </div>
+            ) : (
+                <p>No user data available</p>
+            )}
             <div className="account-actions">
                 <button
                     onClick={handleChangePassword}

@@ -3,7 +3,7 @@ const accountController = require("../controllers/accountController");
 const { validateToken } = require("../utils/JWT");
 const router = express.Router();
 
-router.get("/:userId", validateToken, accountController.getUserProfile);
+router.get("/profile", validateToken, accountController.getUserProfile);
 router.get("/orders/:userId", accountController.getUserOrders);
 router.get("/cart/:userId", accountController.getUserCart);
 router.put("/:userId", accountController.updateUserProfile);

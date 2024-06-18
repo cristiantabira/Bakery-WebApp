@@ -1,19 +1,37 @@
 const { sign, verify } = require("jsonwebtoken");
 
 const createToken = (user) => {
-    const accesToken = sign(
-        { username: user.username, email: user.email, id: user._id },
+    const accessToken = sign(
+        { username: user.username, email: user.email, id: user.id || user._id },
         "parolaSecreta",
         {
             expiresIn: "30d",
         }
     );
 
-    return accesToken;
+    return accessToken;
 };
 
-//De adaugat o noua functie
 const validateToken = (req, res, next) => {
+    console.log("Cookies:", req.cookies);
+    const accessToken = req.cookies["access-token"];
+    if (!accessToken) {
+        return res.status(401).json({ message: "User not authenticated" });
+    }
+    try {
+        const validToken = verify(accessToken, "parolaSecreta");
+        if (validToken) {
+            req.authenticated = true;
+            req.user = validToken;
+            //console.log("User id in JWT:", req.user.id);
+            return next();
+        }
+    } catch (err) {
+        return res.status(400).json(err);
+    }
+};
+
+const optionalValidateToken = (req, res, next) => {
     const accessToken = req.cookies["access-token"];
     if (!accessToken) {
         req.user = null;
@@ -21,18 +39,16 @@ const validateToken = (req, res, next) => {
     }
     try {
         const validToken = verify(accessToken, "parolaSecreta");
-        console.log("Decoded JWT:", validToken);
         if (validToken) {
             req.authenticated = true;
             req.user = validToken;
-            return next();
+        } else {
+            req.user = null;
         }
     } catch (err) {
-        return res.status(400).json(err);
+        req.user = null;
     }
-    //req.user = null; // pt utilizatori neautentificați !!!
     next();
 };
 
-// module.exports = { validateToken };
-module.exports = { createToken, validateToken };
+module.exports = { createToken, validateToken, optionalValidateToken };

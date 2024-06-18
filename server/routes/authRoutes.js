@@ -18,7 +18,10 @@ router.post("/login", async (req, res) => {
                 res.cookie("access-token", accesToken, {
                     maxAge: 60 * 60 * 24 * 30 * 1000,
                     httpOnly: true,
+                    secure: false,
+                    withCredentials: true,
                 });
+
                 res.status(202);
                 res.json("User logged in");
             } else {
