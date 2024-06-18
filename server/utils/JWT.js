@@ -12,6 +12,7 @@ const createToken = (user) => {
     return accesToken;
 };
 
+//De adaugat o noua functie
 const validateToken = (req, res, next) => {
     const accessToken = req.cookies["access-token"];
     if (!accessToken) {
