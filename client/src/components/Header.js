@@ -27,6 +27,12 @@ export default function Header() {
         setNavVisibility(!isNavVisible);
     };
 
+    const user2 = {
+        name: "John Doe",
+        role: "user",
+        email: "tab@yahoo.com",
+        id: 7,
+    };
     return (
         <header className="Header">
             <Container>
@@ -63,9 +69,9 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link to="/account">My Account</Link>
-                                <span>Welcome, {user.name}</span>
+                                <span>Welcome, {user2.name}</span>
                                 <button onClick={logout}>Logout</button>
-                                {user.role === "admin" && (
+                                {user2.role === "admin" && (
                                     <Link to="/products/add">CMS</Link>
                                 )}
                             </>

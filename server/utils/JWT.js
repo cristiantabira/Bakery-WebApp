@@ -13,7 +13,6 @@ const createToken = (user) => {
 };
 
 const validateToken = (req, res, next) => {
-    console.log("Cookies:", req.cookies);
     const accessToken = req.cookies["access-token"];
     if (!accessToken) {
         return res.status(401).json({ message: "User not authenticated" });
@@ -23,7 +22,6 @@ const validateToken = (req, res, next) => {
         if (validToken) {
             req.authenticated = true;
             req.user = validToken;
-            //console.log("User id in JWT:", req.user.id);
             return next();
         }
     } catch (err) {

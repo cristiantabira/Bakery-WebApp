@@ -16,6 +16,9 @@ const Login = () => {
                 {
                     email,
                     password,
+                },
+                {
+                    withCredentials: true,
                 }
             );
             if (response.status === 202) {

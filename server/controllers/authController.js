@@ -1,8 +1,30 @@
 const e = require("express");
 const { User } = require("../models");
+const bcrypt = require("bcrypt");
+const { createToken } = require("../utils/JWT");
 
-exports.login = (req, res) => {
-    res.send("Login Page");
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+        return res.status(401).json({ message: "User not found" });
+    }
+
+    bcrypt.compare(password, user.password).then((match) => {
+        if (match) {
+            const accessToken = createToken(user);
+            res.cookie("access-token", accessToken, {
+                maxAge: 60 * 60 * 24 * 30 * 1000, // 30 days
+                httpOnly: true,
+                secure: false,
+            });
+            console.log(res);
+            res.status(202).json("User logged in");
+        } else {
+            res.status(401).json("Wrong username or password");
+        }
+    });
 };
 
 exports.signUpUser = async (req, res) => {

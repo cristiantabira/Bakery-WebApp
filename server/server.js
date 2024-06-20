@@ -3,11 +3,8 @@ const { sequelize } = require("./models");
 
 const app = express();
 const port = 5000;
+
 const cors = require("cors");
-app.use(express.json());
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
-app.use("/uploads", express.static("uploads"));
 
 app.use(
     cors({
@@ -15,6 +12,11 @@ app.use(
         credentials: true,
     })
 );
+
+const cookieParser = require("cookie-parser");
+app.use(express.json());
+app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
 
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");

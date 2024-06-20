@@ -13,9 +13,14 @@ const AccountPage = () => {
                 const response = await axios.get(
                     "http://localhost:5000/account/profile",
                     {
-                        withCredentials: true, // Ensure cookies are sent with the request
+                        httpOnly: true,
+                        secure: false,
+                        credentials: true,
+                        withCredentials: true,
+                        sameSite: "Lax",
                     }
                 );
+                console.log("User data:", response.data);
                 setUserData(response.data);
                 setLoading(false);
             } catch (err) {

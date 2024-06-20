@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const token = localStorage.getItem("token");
                 if (token) {
-                    const { data } = await axios.get("/auth/me", {
+                    const { data } = await axios.get("/auth/profile", {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     setUser(data.user);

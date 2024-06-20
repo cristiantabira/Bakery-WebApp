@@ -29,7 +29,6 @@ function App() {
                             <Route path="/account" element={<AccountPage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignUpPage />} />
-                            <Route path="/account" component={AccountPage} />
                             <Route
                                 path="/products/add"
                                 element={<BakerPage />}

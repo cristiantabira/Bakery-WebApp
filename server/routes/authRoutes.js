@@ -8,30 +8,7 @@ const jwt = require("jsonwebtoken");
 const { createToken, validateToken } = require("../utils/JWT");
 const { User } = require("../models");
 
-router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    const user = await authController.getUserByEmail(email);
-    if (user) {
-        bcrypt.compare(password, user.password).then((match) => {
-            if (match) {
-                const accesToken = createToken(user);
-                res.cookie("access-token", accesToken, {
-                    maxAge: 60 * 60 * 24 * 30 * 1000,
-                    httpOnly: true,
-                    secure: false,
-                    withCredentials: true,
-                });
-
-                res.status(202);
-                res.json("User logged in");
-            } else {
-                res.json("Wrong username or password");
-            }
-        });
-    } else {
-        res.status(400).json("User not found");
-    }
-});
+router.post("/login", authController.login);
 
 router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
