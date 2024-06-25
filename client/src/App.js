@@ -12,6 +12,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BakerPage from "./pages/BakerCMS";
+import MapPage from "./pages/MapPage";
 import { AuthProvider } from "./services/AuthContext";
 import Header2 from "./components/Header2";
 
@@ -29,6 +30,7 @@ function App() {
                             <Route path="/account" element={<AccountPage />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignUpPage />} />
+                            <Route path="/map" element={<MapPage />} />
                             <Route
                                 path="/products/add"
                                 element={<BakerPage />}

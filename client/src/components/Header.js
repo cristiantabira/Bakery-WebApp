@@ -59,6 +59,7 @@ export default function Header() {
                             alt="logo"
                         />
                         <Link to="/">Home</Link>
+                        <Link to="/map">Harta Copilariei</Link>
                         <Link to="/shop">Shop</Link>
                         <Link to="/cart">Cart</Link>
                         {!user ? (
@@ -69,9 +70,9 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link to="/account">My Account</Link>
-                                <span>Welcome, {user2.name}</span>
+                                <span>Welcome, {user.name}</span>
                                 <button onClick={logout}>Logout</button>
-                                {user2.role === "admin" && (
+                                {user.role === "admin" && (
                                     <Link to="/products/add">CMS</Link>
                                 )}
                             </>
