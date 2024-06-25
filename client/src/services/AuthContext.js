@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -9,36 +10,41 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                if (token) {
+            const token = Cookies.get("access-token");
+            if (token) {
+                try {
                     const { data } = await axios.get("/auth/profile", {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     setUser(data.user);
+                } catch (error) {
+                    console.error("Failed to fetch user", error);
                 }
-            } catch (error) {
-                console.error("Failed to fetch user", error);
-            } finally {
-                setLoading(false);
             }
+            setLoading(false);
         };
         fetchUser();
     }, []);
 
     const login = async (credentials) => {
         try {
-            const { data } = await axios.post("/auth/login", credentials);
-            localStorage.setItem("token", data.token);
+            const { data } = await axios.post("/auth/login", credentials, {
+                withCredentials: true,
+            });
             setUser(data.user);
         } catch (error) {
             console.error("Login failed", error);
         }
     };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setUser(null);
+    const logout = async () => {
+        try {
+            await axios.post("/auth/logout", {}, { withCredentials: true });
+            Cookies.remove("access-token");
+            setUser(null);
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     };
 
     return (

@@ -1,45 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../styles/Header.css";
-import { CSSTransition } from "react-transition-group";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { useAuth } from "../services/AuthContext"; //context
+import { useAuth } from "../services/AuthContext";
+import "../styles/Header.css";
+import { CSSTransition } from "react-transition-group";
 
 export default function Header() {
     const [isNavVisible, setNavVisibility] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const navRef = useRef(null);
-    const { user, logout } = useAuth(); // context
+    const { user, logout } = useAuth();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
-        const handleMediaQueryChange = (mediaQuery) => {
-            setIsSmallScreen(mediaQuery.matches);
-        };
-
         mediaQuery.addListener(handleMediaQueryChange);
         handleMediaQueryChange(mediaQuery);
 
         return () => mediaQuery.removeListener(handleMediaQueryChange);
     }, []);
 
+    const handleMediaQueryChange = (mediaQuery) => {
+        setIsSmallScreen(mediaQuery.matches);
+    };
+
     const toggleNav = () => {
         setNavVisibility(!isNavVisible);
     };
 
-    const user2 = {
-        name: "John Doe",
-        role: "user",
-        email: "tab@yahoo.com",
-        id: 7,
-    };
     return (
         <header className="Header">
             <Container>
                 <button onClick={toggleNav} className="Burger">
                     🍰
                 </button>
-
                 <CSSTransition
                     in={!isSmallScreen || isNavVisible}
                     timeout={350}
