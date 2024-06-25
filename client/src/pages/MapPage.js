@@ -1,54 +1,91 @@
-import React from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import React, { useState, useEffect } from "react";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import crisanaData from "../assets/regiuniHarta/crisana.json";
+import { GeoJSON } from "react-leaflet";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import regionsData from "../assets/regiuniHarta/regiuni.json";
+import "../styles/MapPage.css";
 
 const MapPage = () => {
-    const onEachRegion = (region, layer) => {
-        const regionName = region.properties.name;
+    const [recipes, setRecipes] = useState([]);
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
 
-        // Adăugare eveniment de click
-        layer.on({
-            click: () => {
-                console.log(`Regiunea ${regionName} a fost apăsată`);
-            },
-        });
+    useEffect(() => {
+        fetchRecipes();
+    }, []);
 
-        // Afișare nume regiune pe hartă
-        if (regionName) {
-            layer.bindTooltip(regionName, {
-                permanent: true,
-                direction: "center",
-                className: "region-label",
+    const fetchRecipes = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/recipes", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
+            const data = await response.json();
+            setRecipes(data);
+            setFilteredRecipes(data);
+        } catch (error) {
+            console.error("Error fetching recipes:", error);
         }
     };
 
-    const regionStyle = {
-        color: "#4a83ec",
-        weight: 1,
-        fillColor: "#1a1d62",
-        fillOpacity: 0.9,
+    const onEachRegion = (region, layer) => {
+        const regionName = region.properties.name;
+        layer
+            .bindTooltip(regionName, {
+                permanent: true,
+                direction: "center",
+                className: "region-label",
+            })
+            .openTooltip();
+
+        layer.on({
+            click: () => {
+                console.log(`Regiunea ${regionName} a fost apăsată`);
+                const filtered = recipes.filter(
+                    (recipe) => recipe.region === regionName
+                );
+                setFilteredRecipes(filtered);
+            },
+        });
     };
 
     return (
-        <div style={{ height: "80vh", width: "100%" }}>
-            <MapContainer
-                center={[46.5, 24.5]}
-                zoom={7}
-                scrollWheelZoom={false}
-                style={{ height: "100%", width: "100%" }}
-            >
+        <div className="map-page">
+            <MapContainer center={[45.5432, 24.9668]} zoom={7} className="map">
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <GeoJSON
-                    data={crisanaData}
-                    style={regionStyle}
+                    data={regionsData.features}
                     onEachFeature={onEachRegion}
                 />
             </MapContainer>
+            <div className="recipe-list">
+                <h2>Recipes List</h2>
+                {filteredRecipes.length > 0 ? (
+                    <ul>
+                        {filteredRecipes.map((recipe) => (
+                            <li key={recipe.id}>
+                                <h3>{recipe.name}</h3>
+                                <p>
+                                    <strong>Ingredients:</strong>{" "}
+                                    {recipe.ingredients}
+                                </p>
+                                <p>
+                                    <strong>Preparation:</strong>{" "}
+                                    {recipe.preparation}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No recipes yet added</p>
+                )}
+            </div>
         </div>
     );
 };

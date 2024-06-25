@@ -1,0 +1,55 @@
+.map-page {
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+}
+
+.map {
+    height: 100vh;
+    width: 70%;
+}
+
+.recipe-list {
+    width: 30%;
+    padding: 20px;
+    background-color: white;
+    color: black;
+    overflow-y: auto;
+}
+
+.recipe-list h2 {
+    text-align: center;
+    color: purple;
+}
+
+.recipe-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.recipe-list li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.recipe-list li h3 {
+    color: purple;
+}
+
+.recipe-list li p {
+    margin: 5px 0;
+}
+
+.recipe-list p {
+    text-align: center;
+    color: gray;
+}
+
+.region-label {
+    font-weight: bold;
+    color: purple;
+    background: white;
+    border: solid 1px purple;
+    font-size: 16px;
+    text-align: center;
+}

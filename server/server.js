@@ -22,10 +22,12 @@ const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
 const accountRoutes = require("./routes/accountRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const recipeRoutes = require("./routes/recipeRoutes");
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 app.use("/account", accountRoutes);
 app.use("/cart", cartRoutes);
+app.use("/recipes", recipeRoutes);
 
 sequelize
     .authenticate()

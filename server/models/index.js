@@ -24,6 +24,7 @@ db.Product = require("./Product.js")(sequelize);
 db.Cart = require("./Cart.js")(sequelize);
 db.CartProduct = require("./CartProducts.js")(sequelize);
 db.OrderProducts = require("./OrderProducts.js")(sequelize);
+db.Recipe = require("./Recipe.js")(sequelize);
 
 require("../utils/associations.js")(db);
 module.exports = db;
