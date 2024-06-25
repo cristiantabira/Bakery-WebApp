@@ -22,5 +22,12 @@ router.get("/me", validateToken, async (req, res) => {
     const user = await User.findByPk(req.user.id);
     res.json({ user });
 });
-
+router.get("/validateToken", validateToken, async (req, res) => {
+    if (req.authenticated) {
+        const user = await User.findById(req.user.id);
+        res.json({ valid: true, user });
+    } else {
+        res.json({ valid: false });
+    }
+});
 module.exports = router;

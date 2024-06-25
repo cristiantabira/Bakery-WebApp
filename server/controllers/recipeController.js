@@ -37,7 +37,7 @@ exports.createRecipe = async (req, res) => {
         const { name, ingredients, region, preparation } = req.body;
         const recipe = await Recipe.create({
             name,
-            ingredients,
+            ingredients: JSON.stringify(ingredients),
             region,
             preparation,
         });
@@ -50,7 +50,13 @@ exports.createRecipe = async (req, res) => {
 exports.updateRecipe = async (req, res) => {
     try {
         const { id } = req.params;
-        const [updated] = await Recipe.update(req.body, { where: { id } });
+        const [updated] = await Recipe.update(
+            {
+                ...req.body,
+                ingredients: JSON.stringify(req.body.ingredients),
+            },
+            { where: { id } }
+        );
         if (updated) {
             const updatedRecipe = await Recipe.findByPk(id);
             res.status(200).json(updatedRecipe);

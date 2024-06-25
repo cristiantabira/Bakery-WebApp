@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { GeoJSON } from "react-leaflet";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import regionsData from "../assets/regiuniHarta/regiuni.json";
 import "../styles/MapPage.css";
 
@@ -24,10 +24,30 @@ const MapPage = () => {
                 },
             });
             const data = await response.json();
+            console.log(data); // Log the fetched recipes
             setRecipes(data);
             setFilteredRecipes(data);
         } catch (error) {
             console.error("Error fetching recipes:", error);
+        }
+    };
+
+    const fetchRecipesByRegion = async (regionName) => {
+        try {
+            const response = await fetch(
+                `http://localhost:5000/recipes/region/${regionName}`,
+                {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            const data = await response.json();
+            setFilteredRecipes(data);
+        } catch (error) {
+            console.error("Error fetching recipes by region:", error);
         }
     };
 
@@ -44,10 +64,7 @@ const MapPage = () => {
         layer.on({
             click: () => {
                 console.log(`Regiunea ${regionName} a fost apăsată`);
-                const filtered = recipes.filter(
-                    (recipe) => recipe.region === regionName
-                );
-                setFilteredRecipes(filtered);
+                fetchRecipesByRegion(regionName);
             },
         });
     };
@@ -73,7 +90,9 @@ const MapPage = () => {
                                 <h3>{recipe.name}</h3>
                                 <p>
                                     <strong>Ingredients:</strong>{" "}
-                                    {recipe.ingredients}
+                                    {Array.isArray(recipe.ingredients)
+                                        ? recipe.ingredients.join(", ")
+                                        : recipe.ingredients}
                                 </p>
                                 <p>
                                     <strong>Preparation:</strong>{" "}

@@ -3,9 +3,9 @@ const { User, Order, Cart } = require("../models");
 exports.getUserProfile = async (req, res) => {
     try {
         console.log(req.user);
-        const userId = req.user.id; // Assuming the user ID is stored in req.user
+        const userId = req.user.id;
         const user = await User.findByPk(userId, {
-            attributes: { exclude: ["password"] }, // Exclude sensitive information
+            attributes: { exclude: ["password"] },
         });
 
         if (user) {

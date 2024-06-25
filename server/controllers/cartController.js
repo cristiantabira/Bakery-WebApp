@@ -1,5 +1,6 @@
-const { Cart, CartProduct, Product } = require("../models");
+const { Cart, CartProducts, Product } = require("../models");
 const { v4: uuidv4 } = require("uuid");
+const cartProducts = require("../models/cartProducts");
 
 exports.index = async (req, res) => {
     try {
@@ -40,7 +41,7 @@ exports.addToCart = async (req, res) => {
 
         try {
             const [cartProduct, productCreated] =
-                await CartProduct.findOrCreate({
+                await CartProducts.findOrCreate({
                     where: { cartId: cart.id, productId: product.id },
                     defaults: {
                         cartId: cart.id,
@@ -70,14 +71,14 @@ exports.addToCart = async (req, res) => {
 
             if (error.name === "SequelizeUniqueConstraintError") {
                 try {
-                    const cartProduct = await CartProduct.findOne({
+                    const cartProduct = await CartProducts.findOne({
                         where: { cartId: cart.id, productId: product.id },
                     });
 
                     cartProduct.quantity += quantity;
                     cartProduct.subtotal =
                         cartProduct.quantity * cartProduct.price;
-                    await cartProduct.save();
+                    await cartProducts.save();
 
                     return res.status(200).json({
                         message: "Product added to cart",

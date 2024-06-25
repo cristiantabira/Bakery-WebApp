@@ -1,30 +1,41 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const config = require("../config/config.js").development;
+const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    {
-        host: config.host,
-        dialect: config.dialect,
-        storage: config.storage,
-        logging: false,
-    }
+const sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "./dev.sqlite",
+    logging: false,
+});
+
+const User = require("./user")(sequelize, Sequelize.DataTypes);
+const Cart = require("./cart")(sequelize, Sequelize.DataTypes);
+const Product = require("./product")(sequelize, Sequelize.DataTypes);
+const Order = require("./order")(sequelize, Sequelize.DataTypes);
+const CartProducts = require("./cartProducts")(sequelize, Sequelize.DataTypes);
+const OrderProducts = require("./orderProducts")(
+    sequelize,
+    Sequelize.DataTypes
 );
+const Recipe = require("./recipe")(sequelize, Sequelize.DataTypes);
 
-const db = {};
+const models = {
+    User,
+    Cart,
+    Product,
+    Order,
+    CartProducts,
+    OrderProducts,
+    Recipe,
+};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+Object.keys(models).forEach((modelName) => {
+    if (models[modelName].associate) {
+        models[modelName].associate(models);
+    }
+});
 
-db.User = require("./User.js")(sequelize);
-db.Order = require("./Order.js")(sequelize);
-db.Product = require("./Product.js")(sequelize);
-db.Cart = require("./Cart.js")(sequelize);
-db.CartProduct = require("./CartProducts.js")(sequelize);
-db.OrderProducts = require("./OrderProducts.js")(sequelize);
-db.Recipe = require("./Recipe.js")(sequelize);
+require("../utils/associations")(models);
 
-require("../utils/associations.js")(db);
-module.exports = db;
+module.exports = {
+    ...models,
+    sequelize,
+};

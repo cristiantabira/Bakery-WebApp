@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
             },
             ingredients: {
-                type: DataTypes.TEXT,
+                type: DataTypes.JSON,
                 allowNull: false,
             },
             region: {
