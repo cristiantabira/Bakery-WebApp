@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { GeoJSON } from "react-leaflet";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { GeoJSON, MapContainer, TileLayer } from "react-leaflet";
 import regionsData from "../assets/regiuniHarta/regiuni.json";
 import "../styles/MapPage.css";
 
 const MapPage = () => {
     const [recipes, setRecipes] = useState([]);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState(null);
+    const geojsonRef = useRef(null);
 
     useEffect(() => {
         fetchRecipes();
@@ -24,7 +25,6 @@ const MapPage = () => {
                 },
             });
             const data = await response.json();
-            console.log(data); // Log the fetched recipes
             setRecipes(data);
             setFilteredRecipes(data);
         } catch (error) {
@@ -51,33 +51,67 @@ const MapPage = () => {
         }
     };
 
+    const resetHighlight = () => {
+        if (geojsonRef.current) {
+            geojsonRef.current.eachLayer((layer) => {
+                geojsonRef.current.resetStyle(layer);
+            });
+        }
+    };
+
+    const highlightRegion = (e) => {
+        const layer = e.target;
+        layer.setStyle({
+            weight: 5,
+            color: "purple",
+            dashArray: "",
+            fillOpacity: 0.7,
+            fillColor: "purple",
+        });
+    };
+
     const onEachRegion = (region, layer) => {
         const regionName = region.properties.name;
-        layer
-            .bindTooltip(regionName, {
-                permanent: true,
-                direction: "center",
-                className: "region-label",
-            })
-            .openTooltip();
 
         layer.on({
-            click: () => {
-                console.log(`Regiunea ${regionName} a fost apăsată`);
+            click: (e) => {
+                setSelectedRegion(regionName);
                 fetchRecipesByRegion(regionName);
+                highlightRegion(e);
             },
+        });
+
+        layer.bindTooltip(regionName, {
+            permanent: true,
+            direction: "center",
+            className: "region-label",
         });
     };
 
     return (
         <div className="map-page">
-            <MapContainer center={[45.5432, 24.9668]} zoom={7} className="map">
+            <MapContainer
+                center={[45.5432, 24.9668]}
+                zoom={7}
+                className="map"
+                whenCreated={(mapInstance) => {
+                    geojsonRef.current = mapInstance;
+                }}
+            >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <GeoJSON
                     data={regionsData.features}
+                    style={() => ({
+                        fillColor: "blue",
+                        weight: 2,
+                        opacity: 1,
+                        color: "white",
+                        dashArray: "3",
+                        fillOpacity: 0.6,
+                    })}
                     onEachFeature={onEachRegion}
                 />
             </MapContainer>

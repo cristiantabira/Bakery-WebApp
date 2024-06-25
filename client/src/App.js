@@ -14,14 +14,13 @@ import Footer from "./components/Footer";
 import BakerPage from "./pages/BakerCMS";
 import MapPage from "./pages/MapPage";
 import { AuthProvider } from "./services/AuthContext";
-import Header2 from "./components/Header2";
 
 function App() {
     return (
         <AuthProvider>
             <Router>
                 <div className="app-wrapper">
-                    <Header></Header>
+                    <Header />
                     <div className="content">
                         <Routes>
                             <Route path="/" element={<HomePage />} />
@@ -37,7 +36,7 @@ function App() {
                             />
                         </Routes>
                     </div>
-                    <Footer className="footer"></Footer>
+                    <Footer className="footer" />
                 </div>
             </Router>
         </AuthProvider>
