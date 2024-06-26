@@ -19,7 +19,6 @@ exports.login = async (req, res) => {
                 httpOnly: true,
                 secure: false,
             });
-            console.log(res);
             res.status(202).json("User logged in");
         } else {
             res.status(401).json("Wrong username or password");

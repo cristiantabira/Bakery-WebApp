@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useAuth } from "../services/AuthContext";
@@ -26,6 +26,11 @@ export default function Header() {
     const toggleNav = () => {
         setNavVisibility(!isNavVisible);
     };
+
+    console.log("User: ", user); // Add this line
+    console.log("Role: ", role); // Add this line
+    console.log("IsAuthenticated: ", isAuthenticated); // Add this line
+    //console.log("Logout: ", logout); // Add this line
 
     return (
         <header className="Header">
@@ -63,7 +68,7 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link to="/account">My Account</Link>
-                                <span>Welcome, {user ? user.name : ""}</span>
+                                <span>Welcome</span>
                                 <button onClick={logout}>Logout</button>
                                 {role === "admin" && (
                                     <Link to="/products/add">CMS</Link>

@@ -10,32 +10,33 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const fetchUser = async () => {
-        const token = Cookies.get("access-token");
-        if (token) {
-            try {
-                const response = await axios.get("/auth/validateToken", {
-                    headers: { Authorization: `Bearer ${token}` },
-                    withCredentials: true,
-                });
-                if (response.data.valid) {
-                    setUser(response.data.user);
-                    setRole(response.data.user.role);
-                    setIsAuthenticated(true);
-                } else {
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = Cookies.get("access-token");
+            console.log("Token: ", token);
+            if (token) {
+                try {
+                    const response = await axios.get("/auth/validateToken", {
+                        headers: { Authorization: `Bearer ${token}` },
+                        withCredentials: true,
+                    });
+                    console.log("Response: ", response.data);
+                    if (response.data.valid) {
+                        setUser(response.data.user);
+                        setRole(response.data.user.role);
+                        setIsAuthenticated(true);
+                    } else {
+                        setIsAuthenticated(false);
+                    }
+                } catch (error) {
+                    console.error("Failed to verify token", error);
                     setIsAuthenticated(false);
                 }
-            } catch (error) {
-                console.error("Failed to verify token", error);
+            } else {
                 setIsAuthenticated(false);
             }
-        } else {
-            setIsAuthenticated(false);
-        }
-        setLoading(false);
-    };
-
-    useEffect(() => {
+            setLoading(false);
+        };
         fetchUser();
     }, []);
 
@@ -45,8 +46,9 @@ export const AuthProvider = ({ children }) => {
                 withCredentials: true,
             });
             setUser(data.user);
-            setRole(data.user.role);
+            //setRole(data.user.role);
             setIsAuthenticated(true);
+            Cookies.set("access-token", data.token, { expires: 30 });
         } catch (error) {
             console.error("Login failed", error);
         }

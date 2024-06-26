@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/LoginPage.css";
 import axios from "axios";
+import { useAuth } from "../services/AuthContext";
+import Cookies from "js-cookie";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,6 +26,10 @@ const Login = () => {
             );
             if (response.status === 202) {
                 console.log("Login successful:", response.data);
+                Cookies.set("access-token", response.data.token, {
+                    expires: 30,
+                });
+                login({ email, password });
                 navigate("/");
             } else {
                 alert("Login failed: Please check your email and password.");
