@@ -51,25 +51,6 @@ const MapPage = () => {
         }
     };
 
-    const resetHighlight = () => {
-        if (geojsonRef.current) {
-            geojsonRef.current.eachLayer((layer) => {
-                geojsonRef.current.resetStyle(layer);
-            });
-        }
-    };
-
-    const highlightRegion = (e) => {
-        const layer = e.target;
-        layer.setStyle({
-            weight: 5,
-            color: "purple",
-            dashArray: "",
-            fillOpacity: 0.7,
-            fillColor: "purple",
-        });
-    };
-
     const onEachRegion = (region, layer) => {
         const regionName = region.properties.name;
 
@@ -77,7 +58,6 @@ const MapPage = () => {
             click: (e) => {
                 setSelectedRegion(regionName);
                 fetchRecipesByRegion(regionName);
-                highlightRegion(e);
             },
         });
 
@@ -86,6 +66,18 @@ const MapPage = () => {
             direction: "center",
             className: "region-label",
         });
+    };
+
+    const getRegionStyle = (region) => {
+        return {
+            fillColor:
+                selectedRegion === region.properties.name ? "purple" : "blue",
+            weight: 2,
+            opacity: 1,
+            color: "white",
+            dashArray: "3",
+            fillOpacity: 0.5,
+        };
     };
 
     return (
@@ -104,14 +96,7 @@ const MapPage = () => {
                 />
                 <GeoJSON
                     data={regionsData.features}
-                    style={() => ({
-                        fillColor: "blue",
-                        weight: 2,
-                        opacity: 1,
-                        color: "white",
-                        dashArray: "3",
-                        fillOpacity: 0.6,
-                    })}
+                    style={getRegionStyle}
                     onEachFeature={onEachRegion}
                 />
             </MapContainer>
