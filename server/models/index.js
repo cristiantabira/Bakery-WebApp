@@ -15,7 +15,7 @@ const OrderProducts = require("./orderProducts")(
     sequelize,
     Sequelize.DataTypes
 );
-const Recipe = require("./recipe")(sequelize, Sequelize.DataTypes);
+const Recipe = require("./Recipe")(sequelize, Sequelize.DataTypes);
 
 const models = {
     User,

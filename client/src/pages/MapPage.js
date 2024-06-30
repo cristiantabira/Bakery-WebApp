@@ -86,13 +86,14 @@ const MapPage = () => {
                 center={[45.5432, 24.9668]}
                 zoom={7}
                 className="map"
+                scrollWheelZoom={false}
                 whenCreated={(mapInstance) => {
                     geojsonRef.current = mapInstance;
                 }}
             >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright"></a>'
                 />
                 <GeoJSON
                     data={regionsData.features}

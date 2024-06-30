@@ -27,10 +27,9 @@ export default function Header() {
         setNavVisibility(!isNavVisible);
     };
 
-    console.log("User: ", user); // Add this line
-    console.log("Role: ", role); // Add this line
-    console.log("IsAuthenticated: ", isAuthenticated); // Add this line
-    //console.log("Logout: ", logout); // Add this line
+    console.log("User: ", user);
+    console.log("Role: ", role);
+    console.log("IsAuthenticated: ", isAuthenticated);
 
     return (
         <header className="Header">
@@ -57,7 +56,7 @@ export default function Header() {
                             alt="logo"
                         />
                         <Link to="/">Home</Link>
-                        <Link to="/map">Harta Copilariei</Link>
+                        <Link to="/map">Map of Romanian Traditions</Link>
                         <Link to="/shop">Shop</Link>
                         <Link to="/cart">Cart</Link>
                         {!isAuthenticated ? (

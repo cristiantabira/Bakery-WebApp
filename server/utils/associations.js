@@ -22,6 +22,4 @@ module.exports = (models) => {
         through: models.OrderProducts,
         foreignKey: "productId",
     });
-
-    // Add any additional associations for the Recipe model here if needed
 };

@@ -1,4 +1,4 @@
-const { Cart, CartProduct } = require("../models");
+const { Cart, CartProducts } = require("../models");
 
 const mergeCarts = async (sessionId, userId) => {
     try {
@@ -13,21 +13,20 @@ const mergeCarts = async (sessionId, userId) => {
             return;
         }
 
-        const sessionCartProducts = await CartProduct.findAll({
+        const sessionCartProducts = await CartProducts.findAll({
             where: { cartId: sessionCart.id },
         });
         for (const sessionProduct of sessionCartProducts) {
-            const [userProduct, created] = await CartProduct.findOrCreate({
+            const [userProduct, created] = await CartProducts.findOrCreate({
                 where: {
                     cartId: userCart.id,
-                    productIdCart: sessionProduct.productIdCart,
+                    productId: sessionProduct.productId,
                 },
                 defaults: {
                     cartId: userCart.id,
-                    productIdCart: sessionProduct.productIdCart,
+                    productId: sessionProduct.productId,
                     quantity: sessionProduct.quantity,
                     price: sessionProduct.price,
-                    subtotal: sessionProduct.subtotal,
                 },
             });
 
