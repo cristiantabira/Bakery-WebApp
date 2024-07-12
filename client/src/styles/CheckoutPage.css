@@ -1,0 +1,133 @@
+.checkout-container {
+    width: 70%;
+    margin: auto;
+    background-color: #f9f6f2; 
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 150px;
+}
+
+.checkout-title {
+    text-align: center;
+    color: #6a1b9a; 
+    margin-bottom: 20px;
+}
+
+.cart-summary {
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.product-image {
+    width: 120px; 
+    height: 80px; 
+    object-fit: cover;
+}
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.checkout-form h2 {
+    color: #6a1b9a; 
+    margin-bottom: 10px;
+}
+
+.checkout-form label {
+    color: #333;
+    margin-bottom: 5px; 
+    display: block;
+    margin-left: 10%;
+}
+
+.checkout-form input,
+.checkout-form select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    width: 75%;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+.checkout-form .radio-group {
+    /* display: flex; */
+    align-items: right;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-self: start;
+    
+}
+
+.radio-group label {
+    margin-left: 5px;
+}
+
+.card-details {
+    margin-top: 10px;
+}
+
+.card-details div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-details label {
+    width: 100px;
+    margin-right: 10px;
+    
+}
+
+.card-details input{
+    width: 60%;
+}
+
+.checkout-form .submit-button {
+    background-color: #6a1b9a; 
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkout-form .submit-button:hover {
+    background-color: #4a0072; 
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    margin-left: 15%;
+}
+
+.checkout-form .input {
+    margin-left: 10px;
+}

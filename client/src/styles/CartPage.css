@@ -58,7 +58,12 @@
     cursor: pointer;
     text-align: center;
 }
-
+.product-image {
+    width: 150px; 
+    height: 100px; 
+    object-fit:inherit;
+    border-radius: 5px;
+}
 .checkout-button:hover {
     background-color: #b71c1c;
 }

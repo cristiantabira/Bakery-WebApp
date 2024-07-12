@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/ShopPage.css";
 import axios from "axios";
-import AuthContext from "../services/AuthContext";
 
 const ShopPage = () => {
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    // const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -30,15 +28,27 @@ const ShopPage = () => {
 
     const addToCart = async (productId) => {
         try {
+            const quantityInput = document.getElementById(
+                `quantity-${productId}`
+            );
+            const quantity = quantityInput
+                ? parseInt(quantityInput.value, 10)
+                : 1;
+
+            const productResponse = await axios.get(
+                `http://localhost:5000/products/${productId}`
+            );
+
             const response = await axios.post(
                 "http://localhost:5000/cart/addProduct",
                 {
                     productId,
-                    quantity: 1,
+                    quantity: quantity,
+                    price: productResponse.data.price,
                 },
                 { withCredentials: true }
             );
-            alert("Product added to cart");
+            // alert("Product added to cart");
         } catch (error) {
             console.error("Error adding product to cart:", error);
         }
@@ -79,9 +89,16 @@ const ShopPage = () => {
                                 <p className="card-text">
                                     {product.price.toFixed(2)} RON
                                 </p>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    defaultValue="1"
+                                    className="form-control quantity-input"
+                                    id={`quantity-${product.id}`}
+                                />
                                 <button
                                     onClick={() => addToCart(product.id)}
-                                    className="btn btn-primary"
+                                    className="btn btn-primary mt-2"
                                 >
                                     Add to Cart
                                 </button>

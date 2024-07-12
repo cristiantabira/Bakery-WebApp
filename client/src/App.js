@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import BakerPage from "./pages/BakerCMS";
 import MapPage from "./pages/MapPage";
 import { AuthProvider } from "./services/AuthContext";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
     return (
@@ -33,6 +34,10 @@ function App() {
                             <Route
                                 path="/products/add"
                                 element={<BakerPage />}
+                            />
+                            <Route
+                                path="/checkout"
+                                element={<CheckoutPage />}
                             />
                         </Routes>
                     </div>

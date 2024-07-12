@@ -1,17 +1,33 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class Order extends Model {}
+    class Order extends Model {
+        static associate(models) {
+            Order.hasMany(models.OrderProducts, {
+                foreignKey: "orderId",
+                as: "orderProducts",
+            });
+            Order.belongsTo(models.User, {
+                foreignKey: "userId",
+                as: "user",
+            });
+        }
+    }
 
     Order.init(
         {
             userId: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: "users",
                     key: "id",
                 },
+            },
+            sessionId: {
+                type: DataTypes.UUID,
+                allowNull: true,
+                unique: true,
             },
             details: {
                 type: DataTypes.TEXT,

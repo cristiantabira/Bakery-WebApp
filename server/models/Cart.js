@@ -7,6 +7,10 @@ module.exports = (sequelize) => {
                 foreignKey: "cartId",
                 as: "cartProducts",
             });
+            Cart.belongsTo(models.User, {
+                foreignKey: "userId",
+                as: "user",
+            });
         }
     }
 

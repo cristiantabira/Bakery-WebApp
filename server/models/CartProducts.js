@@ -1,7 +1,18 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class CartProducts extends Model {}
+    class CartProducts extends Model {
+        static associate(models) {
+            CartProducts.belongsTo(models.Cart, {
+                foreignKey: "cartId",
+                as: "cart",
+            });
+            CartProducts.belongsTo(models.Product, {
+                foreignKey: "productId",
+                as: "product",
+            });
+        }
+    }
 
     CartProducts.init(
         {
@@ -21,8 +32,20 @@ module.exports = (sequelize) => {
                     key: "id",
                 },
             },
-            quantity: DataTypes.INTEGER,
-            price: DataTypes.FLOAT,
+            quantity: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    min: 0,
+                },
+            },
+            price: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+                validate: {
+                    min: 0.0,
+                },
+            },
             subtotal: {
                 type: DataTypes.FLOAT,
                 allowNull: false,

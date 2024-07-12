@@ -1,26 +1,51 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class OrderProducts extends Model {}
+    class OrderProducts extends Model {
+        static associate(models) {
+            OrderProducts.belongsTo(models.Order, {
+                foreignKey: "orderId",
+                as: "order",
+            });
+            OrderProducts.belongsTo(models.Product, {
+                foreignKey: "productId",
+                as: "product",
+            });
+        }
+    }
 
     OrderProducts.init(
         {
-            orderIdOrder: {
+            orderId: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 references: {
-                    model: "order",
+                    model: "Order",
                     key: "id",
                 },
             },
-            productIdOrder: {
+            productId: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 references: {
-                    model: "product",
+                    model: "Product",
                     key: "id",
                 },
             },
-            quantity: DataTypes.INTEGER,
-            price: DataTypes.FLOAT,
+            quantity: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    min: 0,
+                },
+            },
+            price: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+                validate: {
+                    min: 0.0,
+                },
+            },
             subtotal: {
                 type: DataTypes.FLOAT,
                 allowNull: false,
@@ -37,6 +62,12 @@ module.exports = (sequelize) => {
             modelName: "OrderProducts",
             tableName: "order_products",
             timestamps: false,
+            indexes: [
+                {
+                    unique: true,
+                    fields: ["orderId", "productId"],
+                },
+            ],
         }
     );
 
