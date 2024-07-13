@@ -11,5 +11,6 @@ router.delete(
     "/order/:orderId/product/:productId",
     accountController.removeProductFromOrder
 );
-
+router.post("/createOrder", accountController.createOrder);
+router.post("/changePassword", validateToken, accountController.changePassword);
 module.exports = router;

@@ -20,12 +20,20 @@ const CheckoutPage = () => {
     useEffect(() => {
         const fetchUserAndCart = async () => {
             try {
-                const userResponse = await axios.get(
-                    "http://localhost:5000/account/profile",
-                    {
-                        withCredentials: true,
+                let userData = null;
+                try {
+                    const userResponse = await axios.get(
+                        "http://localhost:5000/account/profile",
+                        {
+                            withCredentials: true,
+                        }
+                    );
+                    userData = userResponse.data;
+                } catch (err) {
+                    if (err.response.status !== 401) {
+                        throw err;
                     }
-                );
+                }
 
                 const cartResponse = await axios.get(
                     "http://localhost:5000/cart/getCart",
@@ -34,7 +42,6 @@ const CheckoutPage = () => {
                     }
                 );
 
-                const userData = userResponse.data;
                 const cartData = cartResponse.data.cartProducts || [];
 
                 setUser(userData);
@@ -73,45 +80,34 @@ const CheckoutPage = () => {
             }
         }
 
-        // Create order
+        const orderDetails = `Client: ${data.name}, Products: ${cartItems
+            .map((item) => `${item.product.name} x${item.quantity}`)
+            .join(", ")}, Total: RON ${totalPrice.toFixed(2)}, Address: ${
+            data.address
+        }, ${data.city}, ${data.state}, ${data.zip}, Payment Method: ${
+            data.paymentMethod === "card" ? "Paid Online" : "Pay at Delivery"
+        }`;
+
         const orderData = {
             userId: user ? user.id : null,
             sessionId: user ? null : document.cookie.split("=")[1],
-            details: {
-                address: data.address,
-                city: data.city,
-                state: data.state,
-                zip: data.zip,
-                phone: data.phone,
-                paymentMethod: data.paymentMethod,
-                cardNumber:
-                    data.paymentMethod === "card"
-                        ? data.cardNumber.replace(/\s+/g, "")
-                        : null,
-                cardName: data.paymentMethod === "card" ? data.cardName : null,
-                cvv: data.paymentMethod === "card" ? data.cvv : null,
-            },
+            details: orderDetails,
             total: totalPrice,
             status: "pending",
         };
 
         try {
             const response = await axios.post(
-                "http://localhost:5000/orders",
+                "http://localhost:5000/account/createOrder",
                 orderData,
                 {
                     withCredentials: true,
                 }
             );
 
-            if (response.status === 200) {
-                // Clear the cart
-                await axios.delete("http://localhost:5000/cart/clear", {
-                    withCredentials: true,
-                });
-
+            if (response.status === 201) {
                 alert("Order placed successfully!");
-                navigate("/orders");
+                navigate("/");
             }
         } catch (error) {
             console.error("Error placing order:", error);

@@ -6,6 +6,11 @@ const AccountPage = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState(null);
+    const [passwordSuccess, setPasswordSuccess] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -32,20 +37,35 @@ const AccountPage = () => {
         fetchUserData();
     }, []);
 
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        setPasswordError(null);
+        setPasswordSuccess(null);
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError("New passwords do not match");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/account/changePassword",
+                {
+                    currentPassword,
+                    newPassword,
+                },
+                { withCredentials: true }
+            );
+            setPasswordSuccess(response.data.message);
+        } catch (error) {
+            setPasswordError(
+                error.response?.data?.error || "Failed to change password"
+            );
+        }
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
-
-    const handleChangePassword = () => {
-        alert("Change Password Clicked");
-    };
-
-    const handleViewOrders = () => {
-        alert("View Orders Clicked");
-    };
-
-    const handleChangeDetails = () => {
-        alert("Change Details Clicked");
-    };
 
     return (
         <div className="account-container">
@@ -66,20 +86,63 @@ const AccountPage = () => {
             )}
             <div className="account-actions">
                 <button
-                    onClick={handleChangePassword}
+                    onClick={() =>
+                        (document.getElementById(
+                            "change-password-form"
+                        ).style.display = "block")
+                    }
                     className="account-button"
                 >
                     Change Password
                 </button>
-                <button onClick={handleViewOrders} className="account-button">
-                    View Orders
-                </button>
-                <button
-                    onClick={handleChangeDetails}
-                    className="account-button"
-                >
-                    Change Details
-                </button>
+                <button className="account-button">View Orders</button>
+                <button className="account-button">Change Details</button>
+            </div>
+
+            <div
+                id="change-password-form"
+                className="change-password-form"
+                style={{ display: "none" }}
+            >
+                <h3>Change Password</h3>
+                <form onSubmit={handlePasswordChange}>
+                    <div className="form-group">
+                        <label>Current Password</label>
+                        <input
+                            type="password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            required
+                        />
+                        {passwordError && (
+                            <p className="error-message">{passwordError}</p>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <label>New Password</label>
+                        <input
+                            type="password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Confirm New Password</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="account-button">
+                        Change Password
+                    </button>
+                    {passwordSuccess && (
+                        <p className="success-message">{passwordSuccess}</p>
+                    )}
+                </form>
             </div>
         </div>
     );

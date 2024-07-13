@@ -22,11 +22,15 @@ const CartPage = () => {
 
                 const cartData = response.data || {};
                 setCartItems(cartData.cartProducts || []);
-                setCartId(cartData.id || null); // Save the cart ID
+                setCartId(cartData.id || null);
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching cart items:", error);
-                setError(error.message);
+                if (error.response && error.response.status === 404) {
+                    setCartItems([]);
+                    setCartId(null);
+                } else {
+                    setError(error.message);
+                }
                 setLoading(false);
             }
         };

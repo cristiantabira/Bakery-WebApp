@@ -19,7 +19,6 @@ exports.addToCart = async (req, res) => {
         let sessionId = req.cookies.sessionId ? req.cookies.sessionId : null;
 
         if (!userId && !sessionId) {
-            // Create a new session ID if it doesn't exist
             sessionId = uuidv4();
             res.cookie("sessionId", sessionId, {
                 httpOnly: true,
@@ -27,7 +26,6 @@ exports.addToCart = async (req, res) => {
             });
         }
 
-        // Find or create the cart
         let cart = await Cart.findOne({
             where: userId ? { userId } : { sessionId },
         });
@@ -35,7 +33,6 @@ exports.addToCart = async (req, res) => {
             cart = await Cart.create({ userId, sessionId });
         }
 
-        // Find or create the cart product
         let cartProduct = await CartProducts.findOne({
             where: { cartId: cart.id, productId },
         });
@@ -174,5 +171,22 @@ exports.updateCartProductQuantity = async (req, res) => {
         res.status(500).json({
             error: "An error occurred while updating the cart product quantity",
         });
+    }
+};
+
+exports.clearCart = async (userId, sessionId) => {
+    try {
+        const cart = await Cart.findOne({
+            where: userId ? { userId } : { sessionId },
+        });
+
+        if (cart) {
+            await CartProducts.destroy({
+                where: { cartId: cart.id },
+            });
+        }
+    } catch (error) {
+        console.error("Failed to clear the cart:", error);
+        throw new Error("Failed to clear the cart");
     }
 };

@@ -82,7 +82,11 @@ const ShopPage = () => {
                                 }
                                 alt={product.name}
                                 className="card-img-top"
-                                style={{ height: "200px", objectFit: "cover" }}
+                                style={{
+                                    height: "200px",
+                                    width: "100%",
+                                    objectFit: "cover",
+                                }}
                             />
                             <div className="card-body">
                                 <h5 className="card-title">{product.name}</h5>

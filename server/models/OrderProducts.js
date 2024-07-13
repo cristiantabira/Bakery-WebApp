@@ -16,22 +16,22 @@ module.exports = (sequelize) => {
 
     OrderProducts.init(
         {
-            orderId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: "Order",
-                    key: "id",
-                },
-            },
-            productId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: "Product",
-                    key: "id",
-                },
-            },
+            // orderId: {
+            //     type: DataTypes.INTEGER,
+            //     allowNull: false,
+            //     references: {
+            //         model: "Order",
+            //         key: "id",
+            //     },
+            // },
+            // productId: {
+            //     type: DataTypes.INTEGER,
+            //     allowNull: false,
+            //     references: {
+            //         model: "Product",
+            //         key: "id",
+            //     },
+            // },
             quantity: {
                 type: DataTypes.INTEGER,
                 allowNull: false,

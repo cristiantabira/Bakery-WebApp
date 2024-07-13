@@ -5,11 +5,12 @@ const {
     OrderProducts,
     CartProducts,
     Product,
+    sequelize,
 } = require("../models");
+const cartController = require("./cartController");
 
 exports.getUserProfile = async (req, res) => {
     try {
-        console.log(req.user);
         const userId = req.user.id;
         const user = await User.findByPk(userId, {
             attributes: { exclude: ["password"] },
@@ -113,36 +114,48 @@ exports.removeProductFromOrder = async (req, res) => {
 exports.createOrder = async (req, res) => {
     try {
         const { userId, sessionId, details, total, status } = req.body;
-
+        const sessionId2 = req.cookies.sessionId;
         const order = await Order.create({
             userId: userId || null,
-            sessionId: userId ? null : sessionId,
+            sessionId: userId ? null : sessionId2,
             details,
             total,
             status,
         });
 
-        const cartProducts = await CartProducts.findAll({
-            where: userId ? { userId } : { sessionId },
-        });
-
-        const orderProducts = cartProducts.map((cartProduct) => ({
-            orderId: order.id,
-            productId: cartProduct.productId,
-            quantity: cartProduct.quantity,
-            price: cartProduct.price,
-        }));
-
-        await OrderProducts.bulkCreate(orderProducts);
-
-        // Clear the cart after order creation
-        await CartProducts.destroy({
-            where: userId ? { userId } : { sessionId },
-        });
+        cartController.clearCart(userId, sessionId2);
 
         res.status(201).json(order);
     } catch (error) {
         console.error("Error creating order:", error);
         res.status(500).json({ error: "Failed to create order" });
+    }
+};
+exports.changePassword = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const { currentPassword, newPassword } = req.body;
+
+        const user = await User.findByPk(userId);
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res
+                .status(401)
+                .json({ error: "Current password is incorrect" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ error: "Failed to change password" });
     }
 };

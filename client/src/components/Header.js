@@ -67,7 +67,6 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link to="/account">My Account</Link>
-                                <span>Welcome</span>
                                 <button onClick={logout}>Logout</button>
                                 {role === "admin" && (
                                     <Link to="/products/add">CMS</Link>

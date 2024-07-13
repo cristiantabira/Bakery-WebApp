@@ -22,4 +22,6 @@ router.put(
     cartController.updateCartProductQuantity
 );
 
+router.delete("/clearCart", optionalValidateToken, cartController.clearCart);
+
 module.exports = router;
