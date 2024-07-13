@@ -6,24 +6,19 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [role, setRole] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
             const token = Cookies.get("access-token");
-            console.log("Token: ", token);
             if (token) {
                 try {
                     const response = await axios.get("/auth/validateToken", {
                         headers: { Authorization: `Bearer ${token}` },
                         withCredentials: true,
                     });
-                    console.log("Response: ", response.data);
                     if (response.data.valid) {
                         setUser(response.data.user);
-                        setRole(response.data.user.role);
                         setIsAuthenticated(true);
                     } else {
                         setIsAuthenticated(false);
@@ -35,7 +30,6 @@ export const AuthProvider = ({ children }) => {
             } else {
                 setIsAuthenticated(false);
             }
-            setLoading(false);
         };
         fetchUser();
     }, []);
@@ -46,7 +40,6 @@ export const AuthProvider = ({ children }) => {
                 withCredentials: true,
             });
             setUser(data.user);
-            //setRole(data.user.role);
             setIsAuthenticated(true);
             Cookies.set("access-token", data.token, { expires: 30 });
         } catch (error) {
@@ -59,7 +52,6 @@ export const AuthProvider = ({ children }) => {
             await axios.post("/auth/logout", {}, { withCredentials: true });
             Cookies.remove("access-token");
             setUser(null);
-            setRole(null);
             setIsAuthenticated(false);
         } catch (error) {
             console.error("Logout failed", error);
@@ -67,10 +59,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider
-            value={{ user, role, isAuthenticated, login, logout }}
-        >
-            {!loading && children}
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+            {children}
         </AuthContext.Provider>
     );
 };

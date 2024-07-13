@@ -30,4 +30,6 @@ router.get("/validateToken", validateToken, async (req, res) => {
         res.json({ valid: false });
     }
 });
+router.post("/logout", authController.logout); // Added logout route
+
 module.exports = router;

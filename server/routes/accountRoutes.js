@@ -13,4 +13,5 @@ router.delete(
 );
 router.post("/createOrder", accountController.createOrder);
 router.post("/changePassword", validateToken, accountController.changePassword);
+router.get("/orders", validateToken, accountController.getOrders);
 module.exports = router;

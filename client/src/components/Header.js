@@ -9,7 +9,7 @@ export default function Header() {
     const [isNavVisible, setNavVisibility] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const navRef = useRef(null);
-    const { user, role, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated, logout } = useAuth();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
@@ -28,7 +28,6 @@ export default function Header() {
     };
 
     console.log("User: ", user);
-    console.log("Role: ", role);
     console.log("IsAuthenticated: ", isAuthenticated);
 
     return (
@@ -68,9 +67,6 @@ export default function Header() {
                             <>
                                 <Link to="/account">My Account</Link>
                                 <button onClick={logout}>Logout</button>
-                                {role === "admin" && (
-                                    <Link to="/products/add">CMS</Link>
-                                )}
                             </>
                         )}
                     </nav>

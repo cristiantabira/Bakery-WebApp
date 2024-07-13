@@ -8,6 +8,7 @@ const {
     sequelize,
 } = require("../models");
 const cartController = require("./cartController");
+const bcrypt = require("bcrypt");
 
 exports.getUserProfile = async (req, res) => {
     try {
@@ -43,6 +44,18 @@ exports.getUserOrders = async (req, res) => {
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).send(error.message);
+    }
+};
+
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.findAll({
+            where: { userId: req.user.id },
+            include: [{ model: OrderProducts, as: "orderProducts" }],
+        });
+        res.status(200).json({ orders });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch orders" });
     }
 };
 
@@ -132,12 +145,16 @@ exports.createOrder = async (req, res) => {
     }
 };
 exports.changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        return res
+            .status(400)
+            .json({ error: "Please provide both current and new passwords" });
+    }
+
     try {
-        const { userId } = req.user;
-        const { currentPassword, newPassword } = req.body;
-
-        const user = await User.findByPk(userId);
-
+        const user = await User.findByPk(req.user.id);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
@@ -149,13 +166,14 @@ exports.changePassword = async (req, res) => {
                 .json({ error: "Current password is incorrect" });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
         user.password = hashedPassword;
         await user.save();
 
         res.status(200).json({ message: "Password changed successfully" });
     } catch (error) {
-        console.error("Error changing password:", error);
         res.status(500).json({ error: "Failed to change password" });
     }
 };

@@ -46,3 +46,7 @@ exports.getUserByEmail = async (email) => {
         where: { email: email },
     });
 };
+exports.logout = (req, res) => {
+    res.clearCookie("access-token");
+    res.status(200).json({ message: "User logged out" });
+};
