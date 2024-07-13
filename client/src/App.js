@@ -43,9 +43,9 @@ function App() {
                             />
                             <Route
                                 path="/change-password"
-                                component={ChangePasswordPage}
+                                element={<ChangePasswordPage />}
                             />
-                            <Route path="/orders" component={OrdersPage} />
+                            <Route path="/orders" element={<OrdersPage />} />
                         </Routes>
                     </div>
                     <Footer className="footer" />

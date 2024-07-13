@@ -55,6 +55,7 @@ export default function App() {
                         floating
                         className="m-1"
                         href="https://maps.app.goo.gl/pSfZQukTGjzMXCwJA"
+                        target="new"
                         role="button"
                     >
                         <MDBIcon fab icon="google" />
