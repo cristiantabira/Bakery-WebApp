@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/ChangePasswordPage.css";
+import { Navigate } from "react-router-dom";
 
 const ChangePasswordPage = () => {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -35,6 +36,7 @@ const ChangePasswordPage = () => {
 
     return (
         <div className="change-password-container">
+            {passwordSuccess && <Navigate to="/" />}
             <h2>Change Password</h2>
             <form onSubmit={handlePasswordChange}>
                 <div className="form-group">
@@ -69,9 +71,6 @@ const ChangePasswordPage = () => {
                 </button>
                 {passwordError && (
                     <p className="error-message">{passwordError}</p>
-                )}
-                {passwordSuccess && (
-                    <p className="success-message">{passwordSuccess}</p>
                 )}
             </form>
         </div>
