@@ -67,7 +67,6 @@ const AccountPage = () => {
                 >
                     View Orders
                 </button>
-                <button className="account-button">Change Details</button>
             </div>
         </div>
     );

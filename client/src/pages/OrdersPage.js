@@ -28,6 +28,40 @@ const OrdersPage = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
+    const parseDetails = (details) => {
+        try {
+            const parsedDetails = JSON.parse(details);
+            const { client, products, address, paymentMethod } = parsedDetails;
+            return (
+                <div>
+                    <p>
+                        <strong>Client:</strong> {client}
+                    </p>
+                    <p>
+                        <strong>Products:</strong>
+                    </p>
+                    <ul>
+                        {products.map((product, index) => (
+                            <li key={index}>
+                                {product.productName} - Quantity:{" "}
+                                {product.quantity} - Price: $
+                                {product.price.toFixed(2)}
+                            </li>
+                        ))}
+                    </ul>
+                    <p>
+                        <strong>Address:</strong> {address}
+                    </p>
+                    <p>
+                        <strong>Payment Method:</strong> {paymentMethod}
+                    </p>
+                </div>
+            );
+        } catch (error) {
+            return <p>{details}</p>;
+        }
+    };
+
     return (
         <div className="orders-container">
             <h2>My Orders</h2>
@@ -36,8 +70,12 @@ const OrdersPage = () => {
                     {orders.map((order) => (
                         <li key={order.id}>
                             <p>Order ID: {order.id}</p>
-                            <p>Date: {order.date}</p>
-                            <p>Total: ${order.total}</p>
+                            <p>
+                                Date:{" "}
+                                {new Date(order.createdAt).toLocaleDateString()}
+                            </p>
+                            <p>Details:</p>
+                            {parseDetails(order.details)}
                         </li>
                     ))}
                 </ul>
