@@ -9,7 +9,7 @@ export default function Header() {
     const [isNavVisible, setNavVisibility] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const navRef = useRef(null);
-    const { user, isAuthenticated, logout } = useAuth();
+    const { user, isAuthenticated, isAdmin, logout } = useAuth();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 700px)");
@@ -33,6 +33,11 @@ export default function Header() {
     return (
         <header className="Header">
             <Container>
+                <img
+                    src={require("../assets/logoBun.webp")}
+                    className="Logo"
+                    alt="logo"
+                />
                 <button onClick={toggleNav} className="Burger">
                     🍰
                 </button>
@@ -49,11 +54,6 @@ export default function Header() {
                             !isSmallScreen || isNavVisible ? "show" : ""
                         }`}
                     >
-                        <img
-                            src={require("../assets/logoBun.webp")}
-                            className="Logo"
-                            alt="logo"
-                        />
                         <Link to="/">Home</Link>
                         <Link to="/map">Map of Romanian Traditions</Link>
                         <Link to="/shop">Shop</Link>
@@ -66,6 +66,9 @@ export default function Header() {
                         ) : (
                             <>
                                 <Link to="/account">My Account</Link>
+                                {isAdmin && (
+                                    <Link to="/admin/users">Manage Users</Link>
+                                )}
                                 <button onClick={logout}>Logout</button>
                             </>
                         )}

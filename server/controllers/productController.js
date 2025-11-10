@@ -44,7 +44,24 @@ exports.getProductById = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const updated = await Product.update(req.body, {
+        const updateData = { ...req.body };
+        
+        // If a new image is uploaded, update the imageUrl
+        if (req.file) {
+            // Delete old image if it exists
+            const existingProduct = await Product.findByPk(req.params.id);
+            if (existingProduct && existingProduct.imageUrl) {
+                const oldImagePath = path.join(__dirname, "..", existingProduct.imageUrl);
+                fs.unlink(oldImagePath, (err) => {
+                    if (err) {
+                        console.error("Failed to delete old image file:", err);
+                    }
+                });
+            }
+            updateData.imageUrl = req.file.path;
+        }
+        
+        const updated = await Product.update(updateData, {
             where: { id: req.params.id },
         });
         if (updated) {

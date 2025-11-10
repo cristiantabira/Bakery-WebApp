@@ -17,6 +17,8 @@ import { AuthProvider } from "./services/AuthContext";
 import CheckoutPage from "./pages/CheckoutPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import OrdersPage from "./pages/OrdersPage";
+import EditProductForm from "./components/EditProductForm";
+import UserManagementPage from "./pages/UserManagementPage";
 
 function App() {
     return (
@@ -38,6 +40,10 @@ function App() {
                                 element={<BakerPage />}
                             />
                             <Route
+                                path="/products/edit/:id"
+                                element={<EditProductForm />}
+                            />
+                            <Route
                                 path="/checkout"
                                 element={<CheckoutPage />}
                             />
@@ -46,6 +52,10 @@ function App() {
                                 element={<ChangePasswordPage />}
                             />
                             <Route path="/orders" element={<OrdersPage />} />
+                            <Route
+                                path="/admin/users"
+                                element={<UserManagementPage />}
+                            />
                         </Routes>
                     </div>
                     <Footer className="footer" />

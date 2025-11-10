@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/LoginPage.css";
 import axios from "axios";
 import { useAuth } from "../services/AuthContext";
-import Cookies from "js-cookie";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -26,9 +25,7 @@ const Login = () => {
             );
             if (response.status === 202) {
                 console.log("Login successful:", response.data);
-                Cookies.set("access-token", response.data.token, {
-                    expires: 30,
-                });
+                // Cookie is set by server with httpOnly, so we don't need to set it here
                 login({ email, password });
                 navigate("/");
             } else {

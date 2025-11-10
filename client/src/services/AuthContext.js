@@ -10,24 +10,21 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const token = Cookies.get("access-token");
-            if (token) {
-                try {
-                    const response = await axios.get("/auth/validateToken", {
-                        headers: { Authorization: `Bearer ${token}` },
-                        withCredentials: true,
-                    });
-                    if (response.data.valid) {
-                        setUser(response.data.user);
-                        setIsAuthenticated(true);
-                    } else {
-                        setIsAuthenticated(false);
-                    }
-                } catch (error) {
-                    console.error("Failed to verify token", error);
+            try {
+                // Cookie is httpOnly, so we can't read it with JavaScript
+                // But withCredentials: true will automatically send it
+                const response = await axios.get("/auth/validateToken", {
+                    withCredentials: true,
+                });
+                if (response.data.valid) {
+                    setUser(response.data.user);
+                    setIsAuthenticated(true);
+                } else {
                     setIsAuthenticated(false);
                 }
-            } else {
+            } catch (error) {
+                // If token is invalid or missing, user is not authenticated
+                console.error("Failed to verify token", error);
                 setIsAuthenticated(false);
             }
         };
@@ -39,9 +36,15 @@ export const AuthProvider = ({ children }) => {
             const { data } = await axios.post("/auth/login", credentials, {
                 withCredentials: true,
             });
-            setUser(data.user);
-            setIsAuthenticated(true);
-            Cookies.set("access-token", data.token, { expires: 30 });
+            // Cookie is set by server with httpOnly, so we don't need to set it here
+            // Validate the token to get user info
+            const response = await axios.get("/auth/validateToken", {
+                withCredentials: true,
+            });
+            if (response.data.valid) {
+                setUser(response.data.user);
+                setIsAuthenticated(true);
+            }
         } catch (error) {
             console.error("Login failed", error);
         }
@@ -58,8 +61,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Helper function to check if user is admin
+    const isAdmin = user && user.role === "admin";
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, isAdmin, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
