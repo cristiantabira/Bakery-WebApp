@@ -69,7 +69,12 @@ export default function Header() {
                                 {isAdmin && (
                                     <Link to="/admin/users">Manage Users</Link>
                                 )}
-                                <button onClick={logout}>Logout</button>
+                                <button
+                                    className="logout-button"
+                                    onClick={logout}
+                                >
+                                    Logout
+                                </button>
                             </>
                         )}
                     </nav>

@@ -57,7 +57,7 @@ const UserManagementPage = () => {
 
     if (loading) {
         return (
-            <div className="container mt-5">
+            <div className="user-management-container mt-5">
                 <div className="text-center">
                     <p>Loading users...</p>
                 </div>
@@ -67,15 +67,15 @@ const UserManagementPage = () => {
 
     if (error) {
         return (
-            <div className="container mt-5">
+            <div className="user-management-container mt-5">
                 <div className="alert alert-danger">{error}</div>
             </div>
         );
     }
 
     return (
-        <div className="container mt-5">
-            <h2 className="mb-4">User Management</h2>
+        <div className="user-management-container mt-5">
+            <h2 className="mb-4 um-header">User Management</h2>
             <div className="table-responsive">
                 <table className="table table-striped table-hover">
                     <thead>
@@ -106,16 +106,24 @@ const UserManagementPage = () => {
                                     </span>
                                 </td>
                                 <td>
-                                    {new Date(user.createdAt).toLocaleDateString()}
+                                    {new Date(
+                                        user.createdAt
+                                    ).toLocaleDateString()}
                                 </td>
                                 <td>
                                     <select
                                         className="form-select form-select-sm"
                                         value={user.role}
                                         onChange={(e) =>
-                                            handleRoleChange(user.id, e.target.value)
+                                            handleRoleChange(
+                                                user.id,
+                                                e.target.value
+                                            )
                                         }
-                                        style={{ width: "auto", display: "inline-block" }}
+                                        style={{
+                                            width: "auto",
+                                            display: "inline-block",
+                                        }}
                                     >
                                         <option value="user">User</option>
                                         <option value="admin">Admin</option>
@@ -131,4 +139,3 @@ const UserManagementPage = () => {
 };
 
 export default UserManagementPage;
-

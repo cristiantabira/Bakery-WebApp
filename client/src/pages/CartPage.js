@@ -119,30 +119,32 @@ const CartPage = () => {
                                 <span className="item-name">
                                     {item.product.name}
                                 </span>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={item.quantity}
-                                    onChange={(e) =>
-                                        handleQuantityChange(
-                                            item.cartId,
-                                            item.productId,
-                                            parseInt(e.target.value)
-                                        )
-                                    }
-                                    className="form-control quantity-input"
-                                />
-                                <span className="item-price">
-                                    RON {item.price.toFixed(2)} buc
-                                </span>
-                                <button
-                                    onClick={() =>
-                                        handleRemoveProduct(item.productId)
-                                    }
-                                    className="btn btn-danger"
-                                >
-                                    Remove
-                                </button>
+                                <div className="item-controls">
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={item.quantity}
+                                        onChange={(e) =>
+                                            handleQuantityChange(
+                                                item.cartId,
+                                                item.productId,
+                                                parseInt(e.target.value)
+                                            )
+                                        }
+                                        className="quantity-input"
+                                    />
+                                    <span className="item-price">
+                                        RON {item.price.toFixed(2)} buc
+                                    </span>
+                                    <button
+                                        onClick={() =>
+                                            handleRemoveProduct(item.productId)
+                                        }
+                                        className="remove-button"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
                             </div>
                             <div className="item-total-price">
                                 Total: RON{" "}
